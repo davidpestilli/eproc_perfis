@@ -143,10 +143,25 @@ function renderMatrix() {
             ? '<span class="access-badge access-nao" style="font-size: 0.75rem; padding: 4px 8px;">✗</span>'
             : '<span style="color: var(--text-secondary)">—</span>';
 
+        // Formatação de localidade/rito com badge
+        let localidadeRitoBadge = '';
+        if (row.localidadeRito === 'N/A') {
+            localidadeRitoBadge = '<span style="color: var(--text-secondary)">—</span>';
+        } else if (row.localidadeRito === 'Ambos') {
+            localidadeRitoBadge = '<span class="loc-rito-badge loc-rito-ambos">✓✓</span>';
+        } else if (row.localidadeRito === 'Apenas Loc.') {
+            localidadeRitoBadge = '<span class="loc-rito-badge loc-rito-parcial">Loc.</span>';
+        } else if (row.localidadeRito === 'Apenas Rito') {
+            localidadeRitoBadge = '<span class="loc-rito-badge loc-rito-parcial">Rito</span>';
+        } else if (row.localidadeRito === 'Nenhum') {
+            localidadeRitoBadge = '<span class="loc-rito-badge loc-rito-nenhum">✗✗</span>';
+        }
+
         tr.innerHTML = `
             <td data-intimacao="${row.mpIntimado}">${row.mpIntimado === 'N/A' ? '<em style="color: var(--text-secondary)">—</em>' : row.mpIntimado}</td>
             <td data-vista="${row.vistaMP}">${row.vistaMP === 'N/A' ? '<em style="color: var(--text-secondary)">—</em>' : row.vistaMP}</td>
             <td data-vinculacao="${row.procuradorVinculado}">${row.procuradorVinculado}</td>
+            <td style="text-align: center;">${localidadeRitoBadge}</td>
             <td data-sigilo="${row.sigiloProcesso}">${row.sigiloProcesso}</td>
             <td data-sigilo="${row.sigiloDocumento}">${row.sigiloDocumento}</td>
             <td style="font-size: 0.85rem;">${tipoAcessoText}</td>
@@ -158,7 +173,7 @@ function renderMatrix() {
     });
 
     if (filteredData.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; padding: 30px; color: var(--text-secondary);">Nenhum resultado encontrado com os filtros selecionados</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="9" style="text-align: center; padding: 30px; color: var(--text-secondary);">Nenhum resultado encontrado com os filtros selecionados</td></tr>';
         summaryDiv.innerHTML = '';
     }
 }

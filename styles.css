@@ -521,6 +521,39 @@ tbody tr:last-child td {
     border: 2px solid #f59e0b;
 }
 
+/* Localidade/Rito Badges */
+.loc-rito-badge {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 16px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+
+.loc-rito-ambos {
+    background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+    color: #1e3a8a;
+    border: 2px solid #3b82f6;
+}
+
+.loc-rito-parcial {
+    background: linear-gradient(135deg, #fef3c7, #fde68a);
+    color: #78350f;
+    border: 2px solid #f59e0b;
+}
+
+.loc-rito-nenhum {
+    background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+    color: #6b7280;
+    border: 2px solid #9ca3af;
+}
+
+.col-localidade-rito {
+    width: 90px;
+    text-align: center;
+}
+
 .access-parcial::before {
     background: #f59e0b;
 }
