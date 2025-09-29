@@ -1,0 +1,22 @@
+# Arquivos CSV de análise
+ANALISTA-SIGILO(ANALISE GERAL).csv
+
+# Relatórios PDF
+Relatório-Analista-Sigilo.pdf
+
+# Arquivo de perguntas
+pergunta.txt
+
+# Pasta Claude
+.claude/
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+
+# Editores
+.vscode/
+.idea/
+*.swp
+*.swo
+*~

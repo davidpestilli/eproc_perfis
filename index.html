@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Análise de Acesso Analista Procuradoria</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Dashboard - Controle de Acesso Analista Procuradoria</h1>
+            <p class="subtitle">Análise de Cenários de Sigilo e Vinculação Processual</p>
+        </header>
+
+        <nav class="tabs">
+            <button class="tab-btn active" data-tab="overview">Visão Geral</button>
+            <button class="tab-btn" data-tab="matrix">Matriz de Acesso</button>
+            <button class="tab-btn" data-tab="scenarios">Cenários Detalhados</button>
+            <button class="tab-btn" data-tab="anomalies">Anomalias</button>
+        </nav>
+
+        <!-- Visão Geral -->
+        <div id="overview" class="tab-content active">
+            <section class="card">
+                <h2>Fatores de Influência no Acesso</h2>
+                <ul class="factors-list">
+                    <li><span class="factor-icon">🔗</span> <strong>Vinculação do Procurador:</strong> Acesso até sigilo 2</li>
+                    <li><span class="factor-icon">📋</span> <strong>Entidade na Capa:</strong> Acesso até sigilo 2 (sem intimação)</li>
+                    <li><span class="factor-icon">👁️</span> <strong>Vista ao MP:</strong> Vinculação parcial, acesso variável</li>
+                    <li><span class="factor-icon">🔒</span> <strong>Sigilo 3+:</strong> Bloqueia todos os acessos</li>
+                    <li><span class="factor-icon">📍</span> <strong>Localidade/Rito:</strong> Secundário se procurador vinculado</li>
+                    <li><span class="factor-icon">🔑</span> <strong>Permissão Expressa:</strong> Pode contornar restrições</li>
+                </ul>
+            </section>
+        </div>
+
+        <!-- Matriz de Acesso -->
+        <div id="matrix" class="tab-content">
+            <section class="card">
+                <h2>Matriz de Acesso Interativa</h2>
+                <p class="matrix-description">Visualização completa dos cenários de acesso testados. Use os filtros para facilitar a análise.</p>
+
+                <div class="filter-controls">
+                    <label>
+                        <span class="filter-label">Filtrar por Sigilo:</span>
+                        <select id="filter-sigilo">
+                            <option value="all">Todos os Níveis</option>
+                            <option value="0">Sigilo 0 (Sem Sigilo)</option>
+                            <option value="1">Sigilo 1 (Segredo de Justiça)</option>
+                            <option value="2">Sigilo 2</option>
+                            <option value="3+">Sigilo 3+</option>
+                        </select>
+                    </label>
+                    <label>
+                        <span class="filter-label">Filtrar por Resultado:</span>
+                        <select id="filter-access">
+                            <option value="all">Todos os Resultados</option>
+                            <option value="SIM">✓ Acesso Total</option>
+                            <option value="PARCIALMENTE">◐ Acesso Parcial</option>
+                            <option value="NÃO">✗ Acesso Negado</option>
+                        </select>
+                    </label>
+                    <label>
+                        <span class="filter-label">Filtrar por Vinculação:</span>
+                        <select id="filter-vinculacao">
+                            <option value="all">Todas as Vinculações</option>
+                            <option value="SIM">Com Procurador</option>
+                            <option value="PARCIALMENTE">Vista ao MP</option>
+                            <option value="NÃO">Sem Vinculação</option>
+                        </select>
+                    </label>
+                </div>
+
+                <div class="matrix-summary" id="matrix-summary">
+                    <!-- Será preenchido via JavaScript -->
+                </div>
+
+                <div class="table-wrapper">
+                    <table id="access-matrix">
+                        <thead>
+                            <tr>
+                                <th class="col-vinculacao">Procurador</th>
+                                <th class="col-sigilo">Sigilo<br>Processo</th>
+                                <th class="col-sigilo">Sigilo<br>Doc.</th>
+                                <th class="col-resultado">Resultado</th>
+                                <th class="col-observacoes">Observações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="matrix-body">
+                            <!-- Será preenchido via JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+
+        <!-- Cenários Detalhados -->
+        <div id="scenarios" class="tab-content">
+            <section class="card">
+                <h2>Cenários por Categoria</h2>
+                <div class="scenarios-accordion" id="scenarios-list">
+                    <!-- Será preenchido via JavaScript -->
+                </div>
+            </section>
+        </div>
+
+        <!-- Anomalias -->
+        <div id="anomalies" class="tab-content">
+            <section class="card alert-card">
+                <h2>⚠️ Anomalias e Inconsistências Identificadas</h2>
+
+                <div class="anomaly-item critical">
+                    <h3>1. Possível Erro de Sistema - Sigilo 2 com Entidade na Capa</h3>
+                    <div class="anomaly-details">
+                        <p><strong>Cenário:</strong> Processo com sigilo 2 + Entidade na capa + Sem procurador atuante</p>
+                        <p><strong>Comportamento Observado:</strong> Eventos são listados e há acesso total</p>
+                        <p><strong>Comportamento Esperado:</strong> Similar ao sigilo 1, onde eventos ficam restritos</p>
+                        <p><strong>Classificação:</strong> <span class="badge critical">ERRO DE SISTEMA</span></p>
+                        <p><strong>Impacto:</strong> Potencial exposição de informações sigilosas</p>
+                    </div>
+                </div>
+
+                <div class="anomaly-item warning">
+                    <h3>2. Contorno para Permissão Expressa em Sigilo 0</h3>
+                    <div class="anomaly-details">
+                        <p><strong>Descrição:</strong> Sistema não permite concessão direta de permissão expressa para sigilo 0</p>
+                        <p><strong>Contorno Identificado:</strong></p>
+                        <ol>
+                            <li>Elevar nível de sigilo temporariamente</li>
+                            <li>Conceder permissão expressa para o sigilo elevado</li>
+                            <li>Retornar sigilo para 0</li>
+                            <li>Sistema mantém a permissão anteriormente concedida</li>
+                        </ol>
+                        <p><strong>Classificação:</strong> <span class="badge warning">FALHA DE CONTROLE</span></p>
+                        <p><strong>Impacto:</strong> Controle de segurança pode ser contornado</p>
+                    </div>
+                </div>
+
+                <div class="anomaly-item info">
+                    <h3>3. Inconsistência no Acesso via Botão "Árvore"</h3>
+                    <div class="anomaly-details">
+                        <p><strong>Cenário:</strong> Processo sob segredo de justiça (sigilo 1) com entidade na capa</p>
+                        <p><strong>Observação:</strong> Eventos não são exibidos, mas o botão "Árvore" permite acesso aos documentos</p>
+                        <p><strong>Classificação:</strong> <span class="badge info">COMPORTAMENTO INCONSISTENTE</span></p>
+                        <p><strong>Impacto:</strong> Interface confusa, possível bypass de controle de visibilidade</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card">
+                <h2>📋 Recomendações</h2>
+                <div class="recommendations">
+                    <h3>Correções Necessárias</h3>
+                    <ul>
+                        <li>Investigar comportamento anômalo do sigilo 2 com entidade na capa</li>
+                        <li>Revisar mecanismo de concessão de permissão expressa para sigilo 0</li>
+                        <li>Padronizar comportamento entre sigilos 1 e 2 quando há entidade na capa</li>
+                    </ul>
+
+                    <h3>Melhorias de Segurança</h3>
+                    <ul>
+                        <li>Implementar logs de auditoria para acessos com permissão expressa</li>
+                        <li>Criar alertas para tentativas de contorno de restrições de sigilo</li>
+                        <li>Revisar política de acesso via "botão Árvore" em processos com sigilo 1</li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+
+        <footer>
+            <p>Dashboard - Análise de Controle de Acesso Analista Procuradoria</p>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
