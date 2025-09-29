@@ -24,13 +24,72 @@
         <div id="overview" class="tab-content active">
             <section class="card">
                 <h2>Fatores de Influência no Acesso</h2>
+                <p class="factors-subtitle">Passe o mouse sobre cada fator para ver mais detalhes</p>
                 <ul class="factors-list">
-                    <li><span class="factor-icon">🔗</span> <strong>Vinculação do Procurador:</strong> Acesso até sigilo 2</li>
-                    <li><span class="factor-icon">📋</span> <strong>Entidade na Capa:</strong> Acesso até sigilo 2 (sem intimação)</li>
-                    <li><span class="factor-icon">👁️</span> <strong>Vista ao MP:</strong> Vinculação parcial, acesso variável</li>
-                    <li><span class="factor-icon">🔒</span> <strong>Sigilo 3+:</strong> Bloqueia todos os acessos</li>
-                    <li><span class="factor-icon">📍</span> <strong>Localidade/Rito:</strong> Secundário se procurador vinculado</li>
-                    <li><span class="factor-icon">🔑</span> <strong>Permissão Expressa:</strong> Pode contornar restrições</li>
+                    <li class="factor-item" data-tooltip="INTIMAÇÃO DO MP (vinculação forte): Quando o MP foi intimado E o analista está vinculado ao procurador E mesma comarca/rito, permite ACESSO TOTAL + PETICIONAMENTO até sigilo 2. Sem intimação formal, não há permissão para peticionar mesmo com acesso aos autos.">
+                        <span class="factor-icon">⚖️</span>
+                        <div class="factor-content">
+                            <strong>Intimação do MP</strong>
+                            <span class="factor-desc">Acesso + Peticionamento (sigilo 0-2)</span>
+                            <span class="info-icon">ℹ️</span>
+                        </div>
+                    </li>
+                    <li class="factor-item" data-tooltip="VISTA AO MP (vinculação parcial): Mais forte do que inicialmente previsto! Com Vista ao MP, o analista tem acesso à capa e documentos até sigilo 2, MAS NÃO pode peticionar. Importante: Sigilo 1 não é liberado pela Vista (apenas cabeçalho). Sigilo 2 COM Vista = acesso total.">
+                        <span class="factor-icon">👁️</span>
+                        <div class="factor-content">
+                            <strong>Vista ao MP</strong>
+                            <span class="factor-desc">Acesso até sigilo 2 (sem peticionar)</span>
+                            <span class="info-icon">ℹ️</span>
+                        </div>
+                    </li>
+                    <li class="factor-item" data-tooltip="Quando o procurador ao qual o analista está associado está vinculado diretamente ao processo, o analista tem acesso completo até sigilo 2. Com intimação do MP + localidade/rito corretos, permite peticionamento. Sem intimação do MP, apenas visualização.">
+                        <span class="factor-icon">🔗</span>
+                        <div class="factor-content">
+                            <strong>Vinculação do Procurador</strong>
+                            <span class="factor-desc">Acesso até sigilo 2</span>
+                            <span class="info-icon">ℹ️</span>
+                        </div>
+                    </li>
+                    <li class="factor-item" data-tooltip="SIGILO 3: Requer permissão expressa. SIGILO 4: Bloqueia acesso mesmo com intimação e vinculação. SIGILO 5: Exclusivo do Juiz, bloqueio absoluto. Vista ao MP não funciona para sigilo 3+.">
+                        <span class="factor-icon">🔒</span>
+                        <div class="factor-content">
+                            <strong>Sigilos 3, 4 e 5</strong>
+                            <span class="factor-desc">Bloqueios progressivos</span>
+                            <span class="info-icon">ℹ️</span>
+                        </div>
+                    </li>
+                    <li class="factor-item" data-tooltip="Para PETICIONAR (não apenas visualizar), são necessários TODOS estes requisitos: (1) MP intimado, (2) Analista vinculado ao procurador, (3) Mesma comarca E rito, (4) Sigilo 0-2. Falta de qualquer um desses fatores = apenas visualização ou acesso negado.">
+                        <span class="factor-icon">📝</span>
+                        <div class="factor-content">
+                            <strong>Capacidade de Peticionamento</strong>
+                            <span class="factor-desc">Requer intimação + vinculação + comarca/rito</span>
+                            <span class="info-icon">ℹ️</span>
+                        </div>
+                    </li>
+                    <li class="factor-item" data-tooltip="Localidade/Rito é relevante apenas para PETICIONAMENTO. Para visualização, se houver procurador vinculado, o analista tem acesso mesmo em localidade diferente. Existem casos parciais: 'mesma localidade apenas' ou 'mesmo rito apenas' que permitem acesso mas não peticionamento.">
+                        <span class="factor-icon">📍</span>
+                        <div class="factor-content">
+                            <strong>Localidade/Rito</strong>
+                            <span class="factor-desc">Relevante para peticionamento</span>
+                            <span class="info-icon">ℹ️</span>
+                        </div>
+                    </li>
+                    <li class="factor-item" data-tooltip="Permissão expressa pode contornar restrições de sigilo. VULNERABILIDADE: É possível contornar a impossibilidade de conceder permissão para sigilo 0 elevando temporariamente o sigilo, concedendo permissão, e depois retornando para 0.">
+                        <span class="factor-icon">🔑</span>
+                        <div class="factor-content">
+                            <strong>Permissão Expressa</strong>
+                            <span class="factor-desc">Contorna restrições (com vulnerabilidade)</span>
+                            <span class="info-icon">ℹ️</span>
+                        </div>
+                    </li>
+                    <li class="factor-item" data-tooltip="Existem 7 níveis distintos: (1) Total, (2) Capa+Documentos, (3) Capa+Eventos sem Docs, (4) Apenas Capa Básica, (5) Apenas Cabeçalho, (6) Apenas Documentos Judiciais, (7) Negado. O nível depende da combinação de intimação, vista, sigilo e vinculação.">
+                        <span class="factor-icon">📊</span>
+                        <div class="factor-content">
+                            <strong>Granularidade de Acesso</strong>
+                            <span class="factor-desc">7 níveis diferentes de acesso</span>
+                            <span class="info-icon">ℹ️</span>
+                        </div>
+                    </li>
                 </ul>
             </section>
         </div>
@@ -46,28 +105,45 @@
                         <span class="filter-label">Filtrar por Sigilo:</span>
                         <select id="filter-sigilo">
                             <option value="all">Todos os Níveis</option>
-                            <option value="0">Sigilo 0 (Sem Sigilo)</option>
-                            <option value="1">Sigilo 1 (Segredo de Justiça)</option>
+                            <option value="0">Sigilo 0</option>
+                            <option value="1">Sigilo 1</option>
                             <option value="2">Sigilo 2</option>
-                            <option value="3+">Sigilo 3+</option>
+                            <option value="3">Sigilo 3</option>
+                            <option value="4">Sigilo 4</option>
+                            <option value="5">Sigilo 5</option>
                         </select>
                     </label>
                     <label>
-                        <span class="filter-label">Filtrar por Resultado:</span>
+                        <span class="filter-label">Filtrar por Acesso:</span>
                         <select id="filter-access">
-                            <option value="all">Todos os Resultados</option>
-                            <option value="SIM">✓ Acesso Total</option>
-                            <option value="PARCIALMENTE">◐ Acesso Parcial</option>
-                            <option value="NÃO">✗ Acesso Negado</option>
+                            <option value="all">Todos</option>
+                            <option value="SIM">✓ Total</option>
+                            <option value="PARCIALMENTE">◐ Parcial</option>
+                            <option value="NÃO">✗ Negado</option>
                         </select>
                     </label>
                     <label>
-                        <span class="filter-label">Filtrar por Vinculação:</span>
-                        <select id="filter-vinculacao">
-                            <option value="all">Todas as Vinculações</option>
-                            <option value="SIM">Com Procurador</option>
-                            <option value="PARCIALMENTE">Vista ao MP</option>
-                            <option value="NÃO">Sem Vinculação</option>
+                        <span class="filter-label">Intimação do MP:</span>
+                        <select id="filter-intimacao">
+                            <option value="all">Todos</option>
+                            <option value="SIM">Com Intimação</option>
+                            <option value="NÃO">Sem Intimação</option>
+                        </select>
+                    </label>
+                    <label>
+                        <span class="filter-label">Vista ao MP:</span>
+                        <select id="filter-vista">
+                            <option value="all">Todos</option>
+                            <option value="SIM">Com Vista</option>
+                            <option value="NÃO">Sem Vista</option>
+                        </select>
+                    </label>
+                    <label>
+                        <span class="filter-label">Pode Peticionar:</span>
+                        <select id="filter-peticiona">
+                            <option value="all">Todos</option>
+                            <option value="SIM">✓ Sim</option>
+                            <option value="NÃO">✗ Não</option>
                         </select>
                     </label>
                 </div>
@@ -80,10 +156,13 @@
                     <table id="access-matrix">
                         <thead>
                             <tr>
-                                <th class="col-vinculacao">Procurador</th>
-                                <th class="col-sigilo">Sigilo<br>Processo</th>
+                                <th class="col-intimacao">Intimação<br>MP</th>
+                                <th class="col-vista">Vista<br>MP</th>
+                                <th class="col-vinculacao">Procurador<br>Vinc.</th>
+                                <th class="col-sigilo">Sigilo<br>Proc.</th>
                                 <th class="col-sigilo">Sigilo<br>Doc.</th>
-                                <th class="col-resultado">Resultado</th>
+                                <th class="col-tipo-acesso">Tipo de<br>Acesso</th>
+                                <th class="col-peticiona">Peticiona</th>
                                 <th class="col-observacoes">Observações</th>
                             </tr>
                         </thead>
@@ -108,61 +187,117 @@
         <!-- Anomalias -->
         <div id="anomalies" class="tab-content">
             <section class="card alert-card">
-                <h2>⚠️ Anomalias e Inconsistências Identificadas</h2>
+                <h2>⚠️ Descobertas Importantes e Inconsistências</h2>
 
                 <div class="anomaly-item critical">
-                    <h3>1. Possível Erro de Sistema - Sigilo 2 com Entidade na Capa</h3>
+                    <h3>1. Vista ao MP é mais forte do que previsto (DESCOBERTA CRÍTICA)</h3>
                     <div class="anomaly-details">
-                        <p><strong>Cenário:</strong> Processo com sigilo 2 + Entidade na capa + Sem procurador atuante</p>
-                        <p><strong>Comportamento Observado:</strong> Eventos são listados e há acesso total</p>
-                        <p><strong>Comportamento Esperado:</strong> Similar ao sigilo 1, onde eventos ficam restritos</p>
-                        <p><strong>Classificação:</strong> <span class="badge critical">ERRO DE SISTEMA</span></p>
-                        <p><strong>Impacto:</strong> Potencial exposição de informações sigilosas</p>
+                        <p><strong>Cenário:</strong> Processos com SIGILO 2 + SEM intimação do MP + COM Vista ao MP</p>
+                        <p><strong>Comportamento Observado:</strong> Analista tem acesso TOTAL à capa e documentos</p>
+                        <p><strong>Relevância:</strong> Na análise inicial, acreditava-se que sigilo 2 sem intimação bloqueava acesso. A Vista ao MP concede acesso mesmo sem intimação formal.</p>
+                        <p><strong>Classificação:</strong> <span class="badge info">DESCOBERTA IMPORTANTE</span></p>
+                        <p><strong>Impacto:</strong> Redefinição do poder da "Vista ao MP" - é mais forte que vinculação parcial</p>
+                        <p><strong>Limitação:</strong> Vista ao MP NÃO funciona para sigilo 1 (apenas cabeçalho) nem sigilo 3+ (bloqueio total)</p>
+                    </div>
+                </div>
+
+                <div class="anomaly-item critical">
+                    <h3>2. Sigilo 1 com Vista ao MP: Comportamento Inesperado</h3>
+                    <div class="anomaly-details">
+                        <p><strong>Cenário:</strong> Processo com SIGILO 1 + Vista ao MP</p>
+                        <p><strong>Comportamento Observado:</strong> Analista tem acesso apenas ao cabeçalho da capa (nome das partes)</p>
+                        <p><strong>Inconsistência:</strong> Vista ao MP funciona para sigilo 0 e sigilo 2, mas NÃO funciona para sigilo 1</p>
+                        <p><strong>Classificação:</strong> <span class="badge warning">COMPORTAMENTO INCONSISTENTE</span></p>
+                        <p><strong>Impacto:</strong> Lógica não linear - sigilo 1 é mais restritivo que sigilo 2 quando há Vista ao MP</p>
+                    </div>
+                </div>
+
+                <div class="anomaly-item critical">
+                    <h3>3. Sigilos 4 e 5: Bloqueio Absoluto</h3>
+                    <div class="anomaly-details">
+                        <p><strong>Cenário SIGILO 4:</strong> Mesmo com intimação do MP + procurador vinculado + comarca/rito correto</p>
+                        <p><strong>Comportamento:</strong> Acesso NEGADO (processo sigiloso)</p>
+                        <p><strong>Cenário SIGILO 5:</strong> Acesso exclusivo do Juiz</p>
+                        <p><strong>Classificação:</strong> <span class="badge critical">BLOQUEIO ABSOLUTO</span></p>
+                        <p><strong>Relevância:</strong> Análise inicial só testou até sigilo 2-3. Sigilos 4 e 5 têm regras completamente diferentes.</p>
                     </div>
                 </div>
 
                 <div class="anomaly-item warning">
-                    <h3>2. Contorno para Permissão Expressa em Sigilo 0</h3>
+                    <h3>4. Contorno para Permissão Expressa em Sigilo 0 (VULNERABILIDADE)</h3>
                     <div class="anomaly-details">
                         <p><strong>Descrição:</strong> Sistema não permite concessão direta de permissão expressa para sigilo 0</p>
                         <p><strong>Contorno Identificado:</strong></p>
                         <ol>
-                            <li>Elevar nível de sigilo temporariamente</li>
-                            <li>Conceder permissão expressa para o sigilo elevado</li>
+                            <li>Elevar nível de sigilo temporariamente (ex: para sigilo 1)</li>
+                            <li>Conceder permissão expressa para o sigilo 1</li>
                             <li>Retornar sigilo para 0</li>
                             <li>Sistema mantém a permissão anteriormente concedida</li>
                         </ol>
-                        <p><strong>Classificação:</strong> <span class="badge warning">FALHA DE CONTROLE</span></p>
-                        <p><strong>Impacto:</strong> Controle de segurança pode ser contornado</p>
+                        <p><strong>Classificação:</strong> <span class="badge warning">VULNERABILIDADE DE SEGURANÇA</span></p>
+                        <p><strong>Impacto:</strong> Controle de segurança pode ser completamente contornado</p>
+                    </div>
+                </div>
+
+                <div class="anomaly-item warning">
+                    <h3>5. Granularidade de Acesso: 7 Níveis Distintos</h3>
+                    <div class="anomaly-details">
+                        <p><strong>Descoberta:</strong> Existem 7 tipos diferentes de acesso, não apenas "Total/Parcial/Negado"</p>
+                        <p><strong>Níveis identificados:</strong></p>
+                        <ol>
+                            <li><strong>Total:</strong> Capa + Eventos + Documentos + Pode peticionar</li>
+                            <li><strong>Capa e Documentos:</strong> Acesso completo mas NÃO peticiona</li>
+                            <li><strong>Capa e Eventos sem Docs:</strong> Vê eventos mas não documentos com sigilo 3+</li>
+                            <li><strong>Apenas Capa Básica:</strong> Informações básicas, sem eventos nem documentos</li>
+                            <li><strong>Apenas Cabeçalho:</strong> Apenas nomes das partes (sigilo 1 sem Vista)</li>
+                            <li><strong>Apenas Documentos Judiciais:</strong> Só vê decisões e atos ordinatórios</li>
+                            <li><strong>Negado:</strong> Nenhum acesso</li>
+                        </ol>
+                        <p><strong>Classificação:</strong> <span class="badge info">COMPLEXIDADE ELEVADA</span></p>
+                        <p><strong>Impacto:</strong> Sistema muito mais complexo do que documentado inicialmente</p>
                     </div>
                 </div>
 
                 <div class="anomaly-item info">
-                    <h3>3. Inconsistência no Acesso via Botão "Árvore"</h3>
+                    <h3>6. Localidade/Rito: Relevante apenas para Peticionamento</h3>
                     <div class="anomaly-details">
-                        <p><strong>Cenário:</strong> Processo sob segredo de justiça (sigilo 1) com entidade na capa</p>
-                        <p><strong>Observação:</strong> Eventos não são exibidos, mas o botão "Árvore" permite acesso aos documentos</p>
-                        <p><strong>Classificação:</strong> <span class="badge info">COMPORTAMENTO INCONSISTENTE</span></p>
-                        <p><strong>Impacto:</strong> Interface confusa, possível bypass de controle de visibilidade</p>
+                        <p><strong>Descoberta:</strong> Localidade/Rito compatíveis são necessários para PETICIONAR, não para VISUALIZAR</p>
+                        <p><strong>Cenários testados:</strong></p>
+                        <ul>
+                            <li>Procurador vinculado + Localidade diferente = ACESSO mas NÃO peticiona</li>
+                            <li>"Mesma localidade apenas" = ACESSO mas NÃO peticiona</li>
+                            <li>"Mesmo rito apenas" = ACESSO mas NÃO peticiona</li>
+                        </ul>
+                        <p><strong>Classificação:</strong> <span class="badge info">CLARIFICAÇÃO</span></p>
+                        <p><strong>Impacto:</strong> Fator de influência é condicional, não absoluto</p>
                     </div>
                 </div>
             </section>
 
             <section class="card">
-                <h2>📋 Recomendações</h2>
+                <h2>📋 Recomendações Atualizadas</h2>
                 <div class="recommendations">
-                    <h3>Correções Necessárias</h3>
+                    <h3>Correções Críticas</h3>
                     <ul>
-                        <li>Investigar comportamento anômalo do sigilo 2 com entidade na capa</li>
-                        <li>Revisar mecanismo de concessão de permissão expressa para sigilo 0</li>
-                        <li>Padronizar comportamento entre sigilos 1 e 2 quando há entidade na capa</li>
+                        <li><strong>Padronizar comportamento de Vista ao MP:</strong> Sigilo 1 não deveria ser exceção. Revisar por que Vista funciona para sigilo 0 e 2, mas não para 1.</li>
+                        <li><strong>Documentar sigilos 4 e 5:</strong> Criar documentação clara sobre bloqueios absolutos e quando permissão expressa funciona.</li>
+                        <li><strong>Corrigir vulnerabilidade de permissão expressa:</strong> Implementar validação que impeça o contorno para sigilo 0.</li>
                     </ul>
 
                     <h3>Melhorias de Segurança</h3>
                     <ul>
-                        <li>Implementar logs de auditoria para acessos com permissão expressa</li>
-                        <li>Criar alertas para tentativas de contorno de restrições de sigilo</li>
-                        <li>Revisar política de acesso via "botão Árvore" em processos com sigilo 1</li>
+                        <li>Implementar <strong>logs de auditoria detalhados</strong> para todos os acessos com Vista ao MP</li>
+                        <li>Criar <strong>alertas automáticos</strong> para tentativas de manipulação de sigilo + permissão expressa</li>
+                        <li>Implementar <strong>matriz de decisão clara</strong> para determinar tipo de acesso baseado em: intimação + vista + vinculação + sigilo</li>
+                        <li>Adicionar <strong>validação em tempo real</strong> para peticionamento (verificar comarca + rito antes de permitir)</li>
+                    </ul>
+
+                    <h3>Documentação Necessária</h3>
+                    <ul>
+                        <li>Criar fluxograma de decisão para os 7 níveis de acesso</li>
+                        <li>Documentar diferença entre "Intimação do MP" vs "Vista ao MP"</li>
+                        <li>Especificar requisitos exatos para capacidade de peticionamento</li>
+                        <li>Detalhar comportamento de cada nível de sigilo (0-5)</li>
                     </ul>
                 </div>
             </section>

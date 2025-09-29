@@ -35,11 +35,15 @@ function initTabs() {
 function initFilters() {
     const sigiloFilter = document.getElementById('filter-sigilo');
     const accessFilter = document.getElementById('filter-access');
-    const vinculacaoFilter = document.getElementById('filter-vinculacao');
+    const intimacaoFilter = document.getElementById('filter-intimacao');
+    const vistaFilter = document.getElementById('filter-vista');
+    const peticionaFilter = document.getElementById('filter-peticiona');
 
     sigiloFilter.addEventListener('change', () => renderMatrix());
     accessFilter.addEventListener('change', () => renderMatrix());
-    vinculacaoFilter.addEventListener('change', () => renderMatrix());
+    intimacaoFilter.addEventListener('change', () => renderMatrix());
+    vistaFilter.addEventListener('change', () => renderMatrix());
+    peticionaFilter.addEventListener('change', () => renderMatrix());
 }
 
 // ===========================
@@ -48,19 +52,17 @@ function initFilters() {
 function renderMatrix() {
     const sigiloFilter = document.getElementById('filter-sigilo').value;
     const accessFilter = document.getElementById('filter-access').value;
-    const vinculacaoFilter = document.getElementById('filter-vinculacao').value;
+    const intimacaoFilter = document.getElementById('filter-intimacao').value;
+    const vistaFilter = document.getElementById('filter-vista').value;
+    const peticionaFilter = document.getElementById('filter-peticiona').value;
     const tbody = document.getElementById('matrix-body');
     const summaryDiv = document.getElementById('matrix-summary');
 
     let filteredData = rawData.filter(row => {
         // Filter by sigilo
         if (sigiloFilter !== 'all') {
-            if (sigiloFilter === '3+') {
-                if (row.sigiloProcesso < 3 && row.sigiloDocumento < 3) return false;
-            } else {
-                const sigilo = parseInt(sigiloFilter);
-                if (row.sigiloProcesso !== sigilo && row.sigiloDocumento !== sigilo) return false;
-            }
+            const sigilo = parseInt(sigiloFilter);
+            if (row.sigiloProcesso !== sigilo && row.sigiloDocumento !== sigilo) return false;
         }
 
         // Filter by access
@@ -68,9 +70,19 @@ function renderMatrix() {
             if (row.visualizaDocumentos !== accessFilter) return false;
         }
 
-        // Filter by vinculacao
-        if (vinculacaoFilter !== 'all') {
-            if (row.procuradorVinculado !== vinculacaoFilter) return false;
+        // Filter by intimacao
+        if (intimacaoFilter !== 'all') {
+            if (row.mpIntimado !== intimacaoFilter) return false;
+        }
+
+        // Filter by vista
+        if (vistaFilter !== 'all') {
+            if (row.vistaMP !== vistaFilter) return false;
+        }
+
+        // Filter by peticiona
+        if (peticionaFilter !== 'all') {
+            if (row.peticiona !== peticionaFilter) return false;
         }
 
         return true;
@@ -81,6 +93,7 @@ function renderMatrix() {
     const acessoTotal = filteredData.filter(r => r.visualizaDocumentos === 'SIM').length;
     const acessoParcial = filteredData.filter(r => r.visualizaDocumentos === 'PARCIALMENTE').length;
     const acessoNegado = filteredData.filter(r => r.visualizaDocumentos === 'NÃO').length;
+    const podePeticionar = filteredData.filter(r => r.peticiona === 'SIM').length;
 
     summaryDiv.innerHTML = `
         <div class="summary-item">
@@ -99,6 +112,10 @@ function renderMatrix() {
             <div class="summary-label">Acesso Negado</div>
             <div class="summary-value" style="color: var(--danger-color)">${acessoNegado}</div>
         </div>
+        <div class="summary-item">
+            <div class="summary-label">Pode Peticionar</div>
+            <div class="summary-value" style="color: var(--info-color)">${podePeticionar}</div>
+        </div>
     `;
 
     tbody.innerHTML = '';
@@ -114,19 +131,34 @@ function renderMatrix() {
                           row.visualizaDocumentos === 'NÃO' ? 'Negado' :
                           'Parcial';
 
+        // Tipo de acesso com formatação legível
+        let tipoAcessoText = row.tipoAcesso || 'N/A';
+        tipoAcessoText = tipoAcessoText.replace(/_/g, ' ').toLowerCase();
+        tipoAcessoText = tipoAcessoText.charAt(0).toUpperCase() + tipoAcessoText.slice(1);
+
+        // Badge para peticiona
+        const peticionaBadge = row.peticiona === 'SIM'
+            ? '<span class="access-badge access-sim" style="font-size: 0.75rem; padding: 4px 8px;">✓</span>'
+            : row.peticiona === 'NÃO'
+            ? '<span class="access-badge access-nao" style="font-size: 0.75rem; padding: 4px 8px;">✗</span>'
+            : '<span style="color: var(--text-secondary)">—</span>';
+
         tr.innerHTML = `
+            <td data-intimacao="${row.mpIntimado}">${row.mpIntimado === 'N/A' ? '<em style="color: var(--text-secondary)">—</em>' : row.mpIntimado}</td>
+            <td data-vista="${row.vistaMP}">${row.vistaMP === 'N/A' ? '<em style="color: var(--text-secondary)">—</em>' : row.vistaMP}</td>
             <td data-vinculacao="${row.procuradorVinculado}">${row.procuradorVinculado}</td>
             <td data-sigilo="${row.sigiloProcesso}">${row.sigiloProcesso}</td>
             <td data-sigilo="${row.sigiloDocumento}">${row.sigiloDocumento}</td>
-            <td><span class="access-badge ${accessClass}">${accessText}</span></td>
-            <td>${row.comentarios || '<em style="color: var(--text-secondary)">—</em>'}</td>
+            <td style="font-size: 0.85rem;">${tipoAcessoText}</td>
+            <td style="text-align: center;">${peticionaBadge}</td>
+            <td style="font-size: 0.9rem;">${row.comentarios || '<em style="color: var(--text-secondary)">—</em>'}</td>
         `;
 
         tbody.appendChild(tr);
     });
 
     if (filteredData.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 30px; color: var(--text-secondary);">Nenhum resultado encontrado com os filtros selecionados</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; padding: 30px; color: var(--text-secondary);">Nenhum resultado encontrado com os filtros selecionados</td></tr>';
         summaryDiv.innerHTML = '';
     }
 }

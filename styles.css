@@ -185,25 +185,143 @@ canvas {
 }
 
 /* Factors List */
+.factors-subtitle {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    margin-bottom: 20px;
+    font-style: italic;
+}
+
 .factors-list {
     list-style: none;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 16px;
 }
 
-.factors-list li {
+.factor-item {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 12px;
-    padding: 16px;
+    padding: 18px;
     background: var(--bg-color);
-    border-radius: 8px;
-    border-left: 3px solid var(--primary-color);
+    border-radius: 10px;
+    border-left: 4px solid var(--primary-color);
+    cursor: help;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 1;
+}
+
+.factor-item:hover {
+    background: white;
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
+    border-left-width: 6px;
+    z-index: 100;
 }
 
 .factor-icon {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.factor-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.factor-content strong {
+    color: var(--text-primary);
+    font-size: 1.05rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.factor-desc {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.info-icon {
+    font-size: 1rem;
+    opacity: 0.5;
+    transition: opacity 0.2s ease;
+}
+
+.factor-item:hover .info-icon {
+    opacity: 1;
+    color: var(--primary-color);
+}
+
+/* Tooltip - Positioned Below by Default */
+.factor-item::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: auto;
+    top: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, var(--text-primary), #334155);
+    color: white;
+    padding: 14px 18px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    width: max-content;
+    max-width: 400px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    pointer-events: none;
+    white-space: normal;
+}
+
+/* Arrow Below (pointing up to element) */
+.factor-item::before {
+    content: '';
+    position: absolute;
+    bottom: auto;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 8px solid transparent;
+    border-bottom-color: var(--text-primary);
+    z-index: 1001;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+/* Show tooltip on hover */
+.factor-item:hover::after {
+    opacity: 1;
+    visibility: visible;
+}
+
+.factor-item:hover::before {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Alternative: Tooltip Above for First Row */
+.factor-item:nth-child(-n+3)::after {
+    top: auto;
+    bottom: calc(100% + 8px);
+    transform: translateX(-50%);
+}
+
+.factor-item:nth-child(-n+3)::before {
+    top: auto;
+    bottom: 100%;
+    border-bottom-color: transparent;
+    border-top-color: var(--text-primary);
 }
 
 /* Matrix Description */
@@ -702,6 +820,17 @@ footer p {
     th, td {
         padding: 8px;
     }
+
+    /* Tooltip adjustments for mobile */
+    .factor-item::after {
+        max-width: 280px;
+        font-size: 0.85rem;
+        padding: 12px 14px;
+    }
+
+    .factors-list {
+        grid-template-columns: 1fr;
+    }
 }
 
 @media (max-width: 480px) {
@@ -727,5 +856,27 @@ footer p {
 
     .filter-controls label {
         width: 100%;
+    }
+
+    /* Tooltip for small screens */
+    .factor-item::after {
+        left: 10px;
+        right: 10px;
+        width: auto;
+        max-width: none;
+        transform: translateX(0) translateY(8px);
+    }
+
+    .factor-item:hover::after {
+        transform: translateX(0) translateY(12px);
+    }
+
+    .factor-item::before {
+        left: 30px;
+        transform: translateX(0) translateY(0);
+    }
+
+    .factor-item:hover::before {
+        transform: translateX(0) translateY(4px);
     }
 }
