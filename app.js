@@ -45,13 +45,11 @@ function initFilters() {
     const accessFilter = document.getElementById('filter-access');
     const intimacaoFilter = document.getElementById('filter-intimacao');
     const vistaFilter = document.getElementById('filter-vista');
-    const peticionaFilter = document.getElementById('filter-peticiona');
 
     sigiloFilter.addEventListener('change', () => renderMatrix());
     accessFilter.addEventListener('change', () => renderMatrix());
     intimacaoFilter.addEventListener('change', () => renderMatrix());
     vistaFilter.addEventListener('change', () => renderMatrix());
-    peticionaFilter.addEventListener('change', () => renderMatrix());
 }
 
 // ===========================
@@ -89,7 +87,6 @@ function renderMatrix() {
     const accessFilter = document.getElementById('filter-access').value;
     const intimacaoFilter = document.getElementById('filter-intimacao').value;
     const vistaFilter = document.getElementById('filter-vista').value;
-    const peticionaFilter = document.getElementById('filter-peticiona').value;
     const tbody = document.getElementById('matrix-body');
     const summaryDiv = document.getElementById('matrix-summary');
 
@@ -115,11 +112,6 @@ function renderMatrix() {
             if (row.vistaMP !== vistaFilter) return false;
         }
 
-        // Filter by peticiona
-        if (peticionaFilter !== 'all') {
-            if (row.peticiona !== peticionaFilter) return false;
-        }
-
         return true;
     });
 
@@ -128,7 +120,6 @@ function renderMatrix() {
     const acessoTotal = filteredData.filter(r => r.visualizaDocumentos === 'SIM').length;
     const acessoParcial = filteredData.filter(r => r.visualizaDocumentos === 'PARCIALMENTE').length;
     const acessoNegado = filteredData.filter(r => r.visualizaDocumentos === 'NÃO').length;
-    const podePeticionar = filteredData.filter(r => r.peticiona === 'SIM').length;
 
     summaryDiv.innerHTML = `
         <div class="summary-item">
@@ -146,10 +137,6 @@ function renderMatrix() {
         <div class="summary-item">
             <div class="summary-label">Acesso Negado</div>
             <div class="summary-value" style="color: var(--danger-color)">${acessoNegado}</div>
-        </div>
-        <div class="summary-item">
-            <div class="summary-label">Pode Peticionar</div>
-            <div class="summary-value" style="color: var(--info-color)">${podePeticionar}</div>
         </div>
     `;
 
@@ -171,13 +158,6 @@ function renderMatrix() {
         tipoAcessoText = tipoAcessoText.replace(/_/g, ' ').toLowerCase();
         tipoAcessoText = tipoAcessoText.charAt(0).toUpperCase() + tipoAcessoText.slice(1);
 
-        // Badge para peticiona
-        const peticionaBadge = row.peticiona === 'SIM'
-            ? '<span class="access-badge access-sim" style="font-size: 0.75rem; padding: 4px 8px;">✓</span>'
-            : row.peticiona === 'NÃO'
-            ? '<span class="access-badge access-nao" style="font-size: 0.75rem; padding: 4px 8px;">✗</span>'
-            : '<span style="color: var(--text-secondary)">—</span>';
-
         // Highlight keywords in observations
         let highlightedObservations = row.comentarios || '<em style="color: var(--text-secondary)">—</em>';
         if (row.comentarios) {
@@ -191,7 +171,6 @@ function renderMatrix() {
             <td data-sigilo="${row.sigiloProcesso}">${row.sigiloProcesso}</td>
             <td data-sigilo="${row.sigiloDocumento}">${row.sigiloDocumento}</td>
             <td style="font-size: 0.85rem;">${tipoAcessoText}</td>
-            <td style="text-align: center;">${peticionaBadge}</td>
             <td class="observacoes-cell" style="font-size: 0.9rem;">${highlightedObservations}</td>
         `;
 
@@ -199,7 +178,7 @@ function renderMatrix() {
     });
 
     if (filteredData.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; padding: 30px; color: var(--text-secondary);">Nenhum resultado encontrado com os filtros selecionados</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 30px; color: var(--text-secondary);">Nenhum resultado encontrado com os filtros selecionados</td></tr>';
         summaryDiv.innerHTML = '';
     }
 }

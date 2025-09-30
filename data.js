@@ -92,23 +92,6 @@ const rawData = [
         perfil: "Analista Procuradoria",
         procuradorVinculado: "NÃO",
         mpIntimado: "N/A",
-        vistaMP: "NÃO",
-        localidade: "NÃO",
-        rito: "NÃO",
-        sigiloProcesso: 0,
-        sigiloDocumento: 0,
-        permissaoExpressa: "NÃO",
-        tipoAcesso: "APENAS_CAPA_DOCUMENTOS_JUDICIAIS",
-        visualizaDocumentos: "PARCIALMENTE",
-        peticiona: "NÃO",
-        comentarios: "Só visualiza documentos feitos pelas unidades judiciais",
-        processo: "",
-        fonte: "ANALISE_GERAL"
-    },
-    {
-        perfil: "Analista Procuradoria",
-        procuradorVinculado: "PARCIALMENTE",
-        mpIntimado: "N/A",
         vistaMP: "SIM",
         localidade: "SIM",
         rito: "SIM",
@@ -175,7 +158,7 @@ const rawData = [
     },
     {
         perfil: "Analista Procuradoria",
-        procuradorVinculado: "PARCIALMENTE",
+        procuradorVinculado: "NÃO",
         mpIntimado: "N/A",
         vistaMP: "SIM",
         localidade: "NÃO",
@@ -192,7 +175,7 @@ const rawData = [
     },
     {
         perfil: "Analista Procuradoria",
-        procuradorVinculado: "PARCIALMENTE",
+        procuradorVinculado: "NÃO",
         mpIntimado: "N/A",
         vistaMP: "SIM",
         localidade: "NÃO",
@@ -293,23 +276,6 @@ const rawData = [
         visualizaDocumentos: "SIM",
         peticiona: "NÃO",
         comentarios: "MP intimado, analista não vinculado, documento com sigilo 1",
-        processo: "4000433-13.2025.8.26.0081",
-        fonte: "COM_INTIMACAO_MP"
-    },
-    {
-        perfil: "Analista Procuradoria",
-        procuradorVinculado: "SIM",
-        mpIntimado: "SIM",
-        vistaMP: "SIM",
-        localidade: "SIM",
-        rito: "SIM",
-        sigiloProcesso: 0,
-        sigiloDocumento: 1,
-        permissaoExpressa: "NÃO",
-        tipoAcesso: "TOTAL",
-        visualizaDocumentos: "SIM",
-        peticiona: "NÃO",
-        comentarios: "MP intimado, analista vinculado, documento com sigilo 1",
         processo: "4000433-13.2025.8.26.0081",
         fonte: "COM_INTIMACAO_MP"
     },
@@ -521,23 +487,6 @@ const rawData = [
     // ============================================
     // SEM INTIMAÇÃO DO MP (mas com/sem Vista ao MP)
     // ============================================
-    {
-        perfil: "Analista Procuradoria",
-        procuradorVinculado: "NÃO",
-        mpIntimado: "NÃO",
-        vistaMP: "NÃO",
-        localidade: "N/A",
-        rito: "N/A",
-        sigiloProcesso: 0,
-        sigiloDocumento: 0,
-        permissaoExpressa: "NÃO",
-        tipoAcesso: "APENAS_CAPA_BASICA",
-        visualizaDocumentos: "NÃO",
-        peticiona: "NÃO",
-        comentarios: "Sem intimação, sem Vista - somente informações básicas da capa, não consegue visualizar os documentos no evento",
-        processo: "4000425-36.2025.8.26.0081",
-        fonte: "SEM_INTIMACAO_MP"
-    },
     {
         perfil: "Analista Procuradoria",
         procuradorVinculado: "NÃO",

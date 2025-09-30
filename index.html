@@ -138,14 +138,6 @@
                             <option value="NÃO">Sem Vista</option>
                         </select>
                     </label>
-                    <label>
-                        <span class="filter-label">Pode Peticionar:</span>
-                        <select id="filter-peticiona">
-                            <option value="all">Todos</option>
-                            <option value="SIM">✓ Sim</option>
-                            <option value="NÃO">✗ Não</option>
-                        </select>
-                    </label>
                 </div>
 
                 <div class="matrix-summary" id="matrix-summary">
@@ -162,7 +154,6 @@
                                 <th class="col-sigilo">Sigilo<br>Proc.</th>
                                 <th class="col-sigilo">Sigilo<br>Doc.</th>
                                 <th class="col-tipo-acesso">Tipo de<br>Acesso</th>
-                                <th class="col-peticiona">Peticiona</th>
                                 <th class="col-observacoes">Observações</th>
                             </tr>
                         </thead>
@@ -387,11 +378,11 @@
                     <span class="expand-icon">▼</span>
                 </div>
                 <div class="insight-answer">
-                    <p><strong>Bloqueios progressivos absolutos:</strong></p>
+                    <p><strong>Bloqueios progressivos que exigem permissão expressa:</strong></p>
                     <ul>
-                        <li><strong>Sigilo 3:</strong> Requer permissão expressa, mesmo com intimação e vinculação</li>
-                        <li><strong>Sigilo 4:</strong> Bloqueio total, mesmo com todos os fatores favoráveis</li>
-                        <li><strong>Sigilo 5:</strong> Acesso exclusivo do Juiz, nenhuma outra condição permite acesso</li>
+                        <li><strong>Sigilo 3:</strong> Requer permissão expressa, mesmo com intimação e vinculação. Com permissão expressa, o acesso é liberado</li>
+                        <li><strong>Sigilo 4:</strong> Requer permissão expressa. Com permissão expressa, o acesso é liberado</li>
+                        <li><strong>Sigilo 5:</strong> Requer permissão expressa. Com permissão expressa, o acesso é liberado</li>
                     </ul>
                 </div>
             </div>
@@ -475,8 +466,9 @@
                     <p><strong>Não, tem limitações importantes:</strong></p>
                     <ul>
                         <li><strong>Sigilo 0:</strong> Sistema bloqueia permissão expressa direta (vulnerabilidade permite contorno)</li>
-                        <li><strong>Sigilo 4-5:</strong> Permissão expressa NÃO funciona - bloqueio absoluto</li>
-                        <li><strong>Peticionamento:</strong> Permissão expressa dá acesso mas não garante capacidade de peticionar</li>
+                        <li><strong>Sigilo 3:</strong> Permissão expressa funciona e permite acesso</li>
+                        <li><strong>Sigilo 4-5:</strong> Permissão expressa funciona e permite acesso</li>
+                        <li><strong>Peticionamento:</strong> Permissão expressa garante capacidade de peticionar</li>
                     </ul>
                 </div>
             </div>
