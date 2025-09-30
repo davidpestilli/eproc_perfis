@@ -171,6 +171,8 @@
                         </tbody>
                     </table>
                 </div>
+
+                <p class="insights-hint">💡 <strong>Clique em "Insights" à esquerda</strong> para ver perguntas e respostas baseadas na análise dos dados da tabela acima.</p>
             </section>
         </div>
 
@@ -178,6 +180,8 @@
         <div id="scenarios" class="tab-content">
             <section class="card">
                 <h2>Cenários por Categoria</h2>
+                <p class="scenarios-description">Cenários de teste estruturados baseados na análise da Matriz de Acesso, organizados por relevância e destacando anomalias identificadas. <span class="legend-hint">Clique na "Legenda" à esquerda para entender as badges utilizadas.</span></p>
+
                 <div class="scenarios-accordion" id="scenarios-list">
                     <!-- Será preenchido via JavaScript -->
                 </div>
@@ -306,6 +310,264 @@
         <footer>
             <p>Dashboard - Análise de Controle de Acesso Analista Procuradoria</p>
         </footer>
+    </div>
+
+    <!-- Modal Side Panel -->
+    <div class="side-modal" id="side-modal">
+        <div class="side-modal-content">
+            <div class="side-modal-header">
+                <h3 id="side-modal-title">📋 Legenda das Identificações</h3>
+                <button class="side-modal-close-btn" id="side-modal-close-btn">×</button>
+            </div>
+
+            <div class="side-modal-body" id="side-modal-body">
+                <!-- Conteúdo será carregado dinamicamente -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Orelha do Modal -->
+    <div class="side-tab" id="side-tab">
+        <span class="side-tab-text" id="side-tab-text">Legenda</span>
+    </div>
+
+    <!-- Templates de conteúdo -->
+    <div id="insights-template" style="display: none;">
+        <p class="content-subtitle">Perguntas e respostas baseadas na análise dos dados da Matriz de Acesso</p>
+
+        <div class="insights-accordion">
+            <div class="insight-item">
+                <div class="insight-question">
+                    <span class="insight-icon">❓</span>
+                    <span>Qual é o fator mais determinante para obter acesso total aos documentos?</span>
+                    <span class="expand-icon">▼</span>
+                </div>
+                <div class="insight-answer">
+                    <p><strong>A Intimação do MP é o fator mais poderoso.</strong> Quando o MP é intimado, mesmo sem vinculação direta do procurador, o analista obtém acesso total aos documentos até sigilo 2. Para peticionamento, é necessário também estar vinculado ao procurador e ter compatibilidade de localidade/rito.</p>
+                </div>
+            </div>
+
+            <div class="insight-item">
+                <div class="insight-question">
+                    <span class="insight-icon">❓</span>
+                    <span>Vista ao MP é suficiente para ter acesso completo?</span>
+                    <span class="expand-icon">▼</span>
+                </div>
+                <div class="insight-answer">
+                    <p><strong>Parcialmente sim.</strong> Vista ao MP concede acesso à capa e documentos até sigilo 2, mas <em>não permite peticionamento</em>. Importante: Vista ao MP não funciona para sigilo 1 (apenas cabeçalho) nem para sigilo 3+ (bloqueio total).</p>
+                </div>
+            </div>
+
+            <div class="insight-item">
+                <div class="insight-question">
+                    <span class="insight-icon">❓</span>
+                    <span>Por que alguns cenários com sigilo 1 têm menos acesso que sigilo 2?</span>
+                    <span class="expand-icon">▼</span>
+                </div>
+                <div class="insight-answer">
+                    <p><strong>Comportamento inconsistente do sistema.</strong> Vista ao MP funciona para sigilo 0 e sigilo 2, mas não funciona para sigilo 1. Processo sigilo 1 com Vista ao MP resulta apenas em acesso ao cabeçalho, enquanto sigilo 2 com Vista ao MP concede acesso total.</p>
+                </div>
+            </div>
+
+            <div class="insight-item">
+                <div class="insight-question">
+                    <span class="insight-icon">❓</span>
+                    <span>Localidade/Rito afeta visualização ou apenas peticionamento?</span>
+                    <span class="expand-icon">▼</span>
+                </div>
+                <div class="insight-answer">
+                    <p><strong>Afeta apenas o peticionamento.</strong> Para visualizar documentos, basta ter procurador vinculado, mesmo em localidade diferente. Para peticionar, é obrigatório ter localidade E rito compatíveis.</p>
+                </div>
+            </div>
+
+            <div class="insight-item">
+                <div class="insight-question">
+                    <span class="insight-icon">❓</span>
+                    <span>Qual é o impacto real dos sigilos 3, 4 e 5?</span>
+                    <span class="expand-icon">▼</span>
+                </div>
+                <div class="insight-answer">
+                    <p><strong>Bloqueios progressivos absolutos:</strong></p>
+                    <ul>
+                        <li><strong>Sigilo 3:</strong> Requer permissão expressa, mesmo com intimação e vinculação</li>
+                        <li><strong>Sigilo 4:</strong> Bloqueio total, mesmo com todos os fatores favoráveis</li>
+                        <li><strong>Sigilo 5:</strong> Acesso exclusivo do Juiz, nenhuma outra condição permite acesso</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="insight-item">
+                <div class="insight-question">
+                    <span class="insight-icon">❓</span>
+                    <span>Quantos níveis diferentes de acesso existem no sistema?</span>
+                    <span class="expand-icon">▼</span>
+                </div>
+                <div class="insight-answer">
+                    <p><strong>7 níveis distintos de granularidade:</strong></p>
+                    <ol>
+                        <li><strong>Total:</strong> Capa + Eventos + Documentos + Peticionamento</li>
+                        <li><strong>Capa e Documentos:</strong> Acesso completo mas sem peticionamento</li>
+                        <li><strong>Capa e Eventos sem Docs:</strong> Vê eventos mas não documentos com sigilo alto</li>
+                        <li><strong>Apenas Capa Básica:</strong> Informações básicas apenas</li>
+                        <li><strong>Apenas Cabeçalho:</strong> Só nomes das partes</li>
+                        <li><strong>Apenas Documentos Judiciais:</strong> Só decisões e atos ordinatórios</li>
+                        <li><strong>Negado:</strong> Nenhum acesso</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="insight-item">
+                <div class="insight-question">
+                    <span class="insight-icon">❓</span>
+                    <span>Existe alguma vulnerabilidade no controle de permissões?</span>
+                    <span class="expand-icon">▼</span>
+                </div>
+                <div class="insight-answer">
+                    <p><strong>Sim, há uma vulnerabilidade crítica:</strong> Não é possível conceder permissão expressa diretamente para sigilo 0, mas é possível contornar elevando temporariamente o sigilo, concedendo permissão, e depois retornando para 0. O sistema mantém a permissão anteriormente concedida.</p>
+                </div>
+            </div>
+
+            <div class="insight-item">
+                <div class="insight-question">
+                    <span class="insight-icon">❓</span>
+                    <span>Por que alguns analistas com procurador vinculado não conseguem peticionar?</span>
+                    <span class="expand-icon">▼</span>
+                </div>
+                <div class="insight-answer">
+                    <p><strong>Falta compatibilidade de localidade e rito.</strong> Para peticionar é obrigatório ter <em>todos</em> os requisitos: procurador vinculado + localidade compatível + rito compatível + MP intimado. Casos "mesma localidade apenas" ou "mesmo rito apenas" permitem visualização mas bloqueiam peticionamento.</p>
+                </div>
+            </div>
+
+            <div class="insight-item">
+                <div class="insight-question">
+                    <span class="insight-icon">❓</span>
+                    <span>Qual é a diferença real entre "Intimação do MP" e "Vista ao MP"?</span>
+                    <span class="expand-icon">▼</span>
+                </div>
+                <div class="insight-answer">
+                    <p><strong>Intimação é vinculação forte, Vista é vinculação parcial:</strong></p>
+                    <ul>
+                        <li><strong>Intimação do MP:</strong> Permite peticionamento quando combinada com vinculação + localidade/rito</li>
+                        <li><strong>Vista ao MP:</strong> Concede acesso até sigilo 2 mas <em>nunca</em> permite peticionamento</li>
+                        <li><strong>Ambos juntos:</strong> Máximo poder - acesso + peticionamento garantidos</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="insight-item">
+                <div class="insight-question">
+                    <span class="insight-icon">❓</span>
+                    <span>Como funciona o acesso quando não há intimação nem Vista ao MP?</span>
+                    <span class="expand-icon">▼</span>
+                </div>
+                <div class="insight-answer">
+                    <p><strong>Acesso extremamente limitado:</strong> Sem intimação nem Vista, o analista só consegue ver informações básicas da capa processual. Não há acesso a documentos nem eventos, mesmo em processos públicos (sigilo 0). É o cenário mais restritivo possível.</p>
+                </div>
+            </div>
+
+            <div class="insight-item">
+                <div class="insight-question">
+                    <span class="insight-icon">❓</span>
+                    <span>Permissão expressa resolve todos os problemas de acesso?</span>
+                    <span class="expand-icon">▼</span>
+                </div>
+                <div class="insight-answer">
+                    <p><strong>Não, tem limitações importantes:</strong></p>
+                    <ul>
+                        <li><strong>Sigilo 0:</strong> Sistema bloqueia permissão expressa direta (vulnerabilidade permite contorno)</li>
+                        <li><strong>Sigilo 4-5:</strong> Permissão expressa NÃO funciona - bloqueio absoluto</li>
+                        <li><strong>Peticionamento:</strong> Permissão expressa dá acesso mas não garante capacidade de peticionar</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="insight-item">
+                <div class="insight-question">
+                    <span class="insight-icon">❓</span>
+                    <span>Que padrões podem ser observados na distribuição de acessos?</span>
+                    <span class="expand-icon">▼</span>
+                </div>
+                <div class="insight-answer">
+                    <p><strong>Três grupos principais emergem dos dados:</strong></p>
+                    <ol>
+                        <li><strong>Acesso Total (≈35%):</strong> Cenários com intimação + vinculação + compatibilidade</li>
+                        <li><strong>Acesso Parcial (≈25%):</strong> Vista ao MP, vinculação sem peticionamento, ou granularidade específica</li>
+                        <li><strong>Acesso Negado (≈40%):</strong> Sigilos altos, falta de requisitos, ou incompatibilidades</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="insight-item">
+                <div class="insight-question">
+                    <span class="insight-icon">❓</span>
+                    <span>Como otimizar o acesso para analistas em casos complexos?</span>
+                    <span class="expand-icon">▼</span>
+                </div>
+                <div class="insight-answer">
+                    <p><strong>Estratégias baseadas nos insights dos dados:</strong></p>
+                    <ul>
+                        <li><strong>Priorizar Vista ao MP:</strong> Mais eficaz que vinculação parcial para visualização</li>
+                        <li><strong>Configurar intimação formal:</strong> Único caminho para peticionamento consistente</li>
+                        <li><strong>Alinhar localidade/rito:</strong> Evitar casos "parciais" que bloqueiam peticionamento</li>
+                        <li><strong>Evitar sigilo 3+:</strong> Requer mudança de estratégia (permissão expressa específica)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="legend-template" style="display: none;">
+        <p class="content-subtitle">Explicação de todas as badges e identificadores utilizados nos cenários</p>
+
+        <div class="legend-section">
+            <h4>Resultado do Acesso</h4>
+            <div class="legend-items">
+                <div class="legend-item">
+                    <span class="access-badge access-sim">TOTAL</span>
+                    <span class="legend-description">Acesso completo à capa, eventos e documentos + capacidade de peticionamento</span>
+                </div>
+                <div class="legend-item">
+                    <span class="access-badge access-parcial">PARCIAL</span>
+                    <span class="legend-description">Acesso limitado (pode visualizar mas não peticionar, ou acesso apenas a parte do conteúdo)</span>
+                </div>
+                <div class="legend-item">
+                    <span class="access-badge access-nao">NEGADO</span>
+                    <span class="legend-description">Nenhum acesso ou apenas informações mínimas (cabeçalho/capa básica)</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="legend-section">
+            <h4>Nível de Relevância</h4>
+            <div class="legend-items">
+                <div class="legend-item">
+                    <span class="badge critical">CRÍTICA</span>
+                    <span class="legend-description">Descobertas fundamentais que impactam significativamente as regras de acesso</span>
+                </div>
+                <div class="legend-item">
+                    <span class="badge warning">ALTA</span>
+                    <span class="legend-description">Comportamentos importantes que devem ser considerados na implementação</span>
+                </div>
+                <div class="legend-item">
+                    <span class="badge info">MÉDIA</span>
+                    <span class="legend-description">Cenários complementares que ajudam a entender a granularidade do sistema</span>
+                </div>
+                <div class="legend-item">
+                    <span class="badge info" style="opacity: 0.7;">BAIXA</span>
+                    <span class="legend-description">Casos básicos de referência para comparação</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="legend-section">
+            <h4>Identificadores Especiais</h4>
+            <div class="legend-items">
+                <div class="legend-item">
+                    <span class="badge critical">ANOMALIA</span>
+                    <span class="legend-description">Comportamento inconsistente ou inesperado que requer atenção especial</span>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>

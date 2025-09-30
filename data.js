@@ -773,36 +773,126 @@ const stats = {
     comVista: rawData.filter(r => r.vistaMP === 'SIM').length
 };
 
-// Cenários estruturados atualizados serão mantidos conforme relatório original
+// Cenários estruturados baseados nos dados da matriz de acesso
 const scenarios = [
     {
         id: "1",
-        titulo: "Intimação do MP vs Vista ao MP",
-        descricao: "Intimação do MP é uma vinculação forte que, combinada com vinculação do procurador, permite peticionamento. Vista ao MP é vinculação parcial que concede acesso mas não permite peticionar.",
+        titulo: "Cenário Ideal: Intimação + Vinculação + Localidade/Rito",
+        sigiloProcesso: 0,
+        sigiloDocumentos: 0,
+        procurador: true,
+        entidade: true,
+        resultado: "TOTAL",
+        anomalia: false,
+        descricao: "MP intimado, analista vinculado ao procurador, mesma comarca e rito. Cenário ideal que permite acesso total com capacidade de peticionamento até sigilo 2.",
         relevancia: "CRÍTICA"
     },
     {
         id: "2",
-        titulo: "Vista ao MP com Sigilo 2",
-        descricao: "Descoberta importante: processos com sigilo 2 SEM intimação mas COM Vista ao MP concedem acesso total à capa e documentos. A Vista ao MP é mais forte do que previsto inicialmente.",
+        titulo: "Descoberta: Vista ao MP + Sigilo 2 (Mais Forte que Previsto)",
+        sigiloProcesso: 2,
+        sigiloDocumentos: 0,
+        procurador: false,
+        entidade: false,
+        resultado: "PARCIAL",
+        anomalia: true,
+        descricao: "Processo sigilo 2 SEM intimação mas COM Vista ao MP concede acesso total aos documentos. Vista ao MP é mais forte do que previsto inicialmente - não permite peticionamento mas garante visualização.",
         relevancia: "ALTA"
     },
     {
         id: "3",
-        titulo: "Sigilos 3, 4 e 5",
-        descricao: "Sigilo 3 requer permissão expressa. Sigilo 4 bloqueia acesso mesmo com intimação e vinculação. Sigilo 5 é exclusivo do Juiz.",
-        relevancia: "CRÍTICA"
-    },
-    {
-        id: "4",
-        titulo: "Capacidade de Peticionamento",
-        descricao: "Para peticionar, o analista precisa: MP intimado + Analista vinculado ao procurador + Mesma comarca E rito + Sigilo 0-2. Falta de qualquer um desses fatores impede peticionamento.",
+        titulo: "Anomalia: Sigilo 1 + Vista ao MP (Comportamento Inconsistente)",
+        sigiloProcesso: 1,
+        sigiloDocumentos: 0,
+        procurador: false,
+        entidade: false,
+        resultado: "NEGADO",
+        anomalia: true,
+        descricao: "Vista ao MP não funciona para sigilo 1, apenas cabeçalho disponível. Comportamento inconsistente: funciona para sigilo 0 e 2, mas não para 1.",
         relevancia: "ALTA"
     },
     {
+        id: "4",
+        titulo: "Vulnerabilidade: Contorno de Permissão Expressa Sigilo 0",
+        sigiloProcesso: 0,
+        sigiloDocumentos: 0,
+        procurador: false,
+        entidade: false,
+        resultado: "TOTAL",
+        anomalia: true,
+        descricao: "Sistema não permite permissão expressa direta para sigilo 0, mas é possível contornar: elevar sigilo → conceder permissão → retornar para 0. Sistema mantém permissão anterior.",
+        relevancia: "CRÍTICA"
+    },
+    {
         id: "5",
-        titulo: "Granularidade de Acesso",
-        descricao: "Existem 7 níveis de acesso: Total, Capa+Documentos, Capa+Eventos sem Docs, Apenas Capa Básica, Apenas Cabeçalho, Apenas Documentos Judiciais, Negado.",
+        titulo: "Localidade/Rito: Impacta Peticionamento, Não Visualização",
+        sigiloProcesso: 0,
+        sigiloDocumentos: 2,
+        procurador: true,
+        entidade: true,
+        resultado: "PARCIAL",
+        anomalia: false,
+        descricao: "Analista vinculado com localidade diferente: tem acesso total aos documentos mas NÃO pode peticionar. Localidade/rito só é relevante para peticionamento.",
         relevancia: "MÉDIA"
+    },
+    {
+        id: "6",
+        titulo: "Sigilo 3: Requer Permissão Expressa",
+        sigiloProcesso: 3,
+        sigiloDocumentos: 3,
+        procurador: true,
+        entidade: true,
+        resultado: "NEGADO",
+        anomalia: false,
+        descricao: "Mesmo com intimação + vinculação + localidade compatível, sigilo 3 bloqueia acesso. Necessita permissão expressa específica para este nível.",
+        relevancia: "ALTA"
+    },
+    {
+        id: "7",
+        titulo: "Sigilo 4: Bloqueio Absoluto",
+        sigiloProcesso: 4,
+        sigiloDocumentos: 4,
+        procurador: true,
+        entidade: true,
+        resultado: "NEGADO",
+        anomalia: false,
+        descricao: "Bloqueio total mesmo com todos os fatores favoráveis (intimação + vinculação + localidade). Sigilo 4 impede qualquer acesso de analistas.",
+        relevancia: "CRÍTICA"
+    },
+    {
+        id: "8",
+        titulo: "Sigilo 5: Exclusivo do Juiz",
+        sigiloProcesso: 5,
+        sigiloDocumentos: 5,
+        procurador: false,
+        entidade: false,
+        resultado: "NEGADO",
+        anomalia: false,
+        descricao: "Acesso exclusivo do Juiz. Nenhuma condição (intimação, vinculação, Vista ou permissão expressa) permite acesso para analistas.",
+        relevancia: "CRÍTICA"
+    },
+    {
+        id: "9",
+        titulo: "Granularidade: Documentos Sigilo 3+ com Vista ao MP",
+        sigiloProcesso: 0,
+        sigiloDocumentos: 3,
+        procurador: false,
+        entidade: false,
+        resultado: "PARCIAL",
+        anomalia: false,
+        descricao: "Processo público com documentos sigilo 3+ e Vista ao MP: acesso à capa e eventos, mas NÃO aos documentos. Demonstra granularidade do controle de acesso.",
+        relevancia: "MÉDIA"
+    },
+    {
+        id: "10",
+        titulo: "Sem Intimação + Sem Vista: Mínimo Acesso",
+        sigiloProcesso: 0,
+        sigiloDocumentos: 0,
+        procurador: false,
+        entidade: false,
+        resultado: "NEGADO",
+        anomalia: false,
+        descricao: "Processo público sem intimação nem Vista ao MP: apenas informações básicas da capa. Não consegue visualizar documentos nem eventos.",
+        relevancia: "BAIXA"
     }
 ];

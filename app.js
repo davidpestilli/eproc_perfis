@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
     renderCharts();
     renderScenarios();
     updateStats();
+    initSideModal();
 });
 
 function initTabs() {
@@ -25,8 +26,15 @@ function initTabs() {
             // Add active class to clicked button and corresponding content
             button.classList.add('active');
             document.getElementById(targetTab).classList.add('active');
+
+            // Update side modal based on active tab
+            updateSideModal(targetTab);
         });
     });
+
+    // Initialize with the current active tab
+    const activeTab = document.querySelector('.tab-btn.active')?.getAttribute('data-tab') || 'overview';
+    updateSideModal(activeTab);
 }
 
 // ===========================
@@ -44,6 +52,33 @@ function initFilters() {
     intimacaoFilter.addEventListener('change', () => renderMatrix());
     vistaFilter.addEventListener('change', () => renderMatrix());
     peticionaFilter.addEventListener('change', () => renderMatrix());
+}
+
+// ===========================
+// KEYWORDS HIGHLIGHTING
+// ===========================
+function highlightKeywords(text) {
+    if (!text) return text;
+
+    const keywords = [
+        'rito',
+        'localidade',
+        'permissão expressa',
+        'permissão'
+    ];
+
+    let highlightedText = text;
+
+    // Sort keywords by length (descending) to handle "permissão expressa" before "permissão"
+    keywords.sort((a, b) => b.length - a.length);
+
+    keywords.forEach(keyword => {
+        // Case-insensitive regex with word boundaries
+        const regex = new RegExp(`\\b(${keyword})\\b`, 'gi');
+        highlightedText = highlightedText.replace(regex, '<span class="keyword-highlight">$1</span>');
+    });
+
+    return highlightedText;
 }
 
 // ===========================
@@ -143,6 +178,12 @@ function renderMatrix() {
             ? '<span class="access-badge access-nao" style="font-size: 0.75rem; padding: 4px 8px;">✗</span>'
             : '<span style="color: var(--text-secondary)">—</span>';
 
+        // Highlight keywords in observations
+        let highlightedObservations = row.comentarios || '<em style="color: var(--text-secondary)">—</em>';
+        if (row.comentarios) {
+            highlightedObservations = highlightKeywords(row.comentarios);
+        }
+
         tr.innerHTML = `
             <td data-intimacao="${row.mpIntimado}">${row.mpIntimado === 'N/A' ? '<em style="color: var(--text-secondary)">—</em>' : row.mpIntimado}</td>
             <td data-vista="${row.vistaMP}">${row.vistaMP === 'N/A' ? '<em style="color: var(--text-secondary)">—</em>' : row.vistaMP}</td>
@@ -151,7 +192,7 @@ function renderMatrix() {
             <td data-sigilo="${row.sigiloDocumento}">${row.sigiloDocumento}</td>
             <td style="font-size: 0.85rem;">${tipoAcessoText}</td>
             <td style="text-align: center;">${peticionaBadge}</td>
-            <td style="font-size: 0.9rem;">${row.comentarios || '<em style="color: var(--text-secondary)">—</em>'}</td>
+            <td class="observacoes-cell" style="font-size: 0.9rem;">${highlightedObservations}</td>
         `;
 
         tbody.appendChild(tr);
@@ -187,16 +228,22 @@ function renderScenarios() {
 
         const anomaliaFlag = scenario.anomalia ? '<span class="badge critical" style="margin-left: 10px;">ANOMALIA</span>' : '';
 
+        const relevanciaClass = scenario.relevancia === 'CRÍTICA' ? 'critical' :
+                               scenario.relevancia === 'ALTA' ? 'warning' :
+                               scenario.relevancia === 'MÉDIA' ? 'info' : 'info';
+
+        const relevanciaFlag = `<span class="badge ${relevanciaClass}" style="margin-left: 8px; font-size: 0.7rem;">${scenario.relevancia}</span>`;
+
         item.innerHTML = `
             <div class="scenario-header">
-                <span>${scenario.id}. ${scenario.titulo}</span>
+                <span>${scenario.id}. ${scenario.titulo} ${relevanciaFlag}</span>
                 <span class="access-badge ${resultBadge}">${scenario.resultado}</span>
             </div>
             <div class="scenario-content">
                 <div class="scenario-details">
                     <p><strong>Sigilo do Processo:</strong> ${scenario.sigiloProcesso}</p>
                     <p><strong>Sigilo dos Documentos:</strong> ${scenario.sigiloDocumentos}</p>
-                    <p><strong>Procurador Atuante:</strong> ${scenario.procurador ? 'Sim' : 'Não'}</p>
+                    <p><strong>Procurador Vinculado:</strong> ${scenario.procurador ? 'Sim' : 'Não'}</p>
                     <p><strong>Entidade na Capa:</strong> ${scenario.entidade ? 'Sim' : 'Não'}</p>
                     <p><strong>Resultado:</strong> <span class="access-badge ${resultBadge}">${scenario.resultado}</span> ${anomaliaFlag}</p>
                     <p><strong>Descrição:</strong> ${scenario.descricao}</p>
@@ -232,4 +279,119 @@ function renderScenarios() {
 // ===========================
 function updateStats() {
     // Stats section removed per user request
+}
+
+// ===========================
+// SIDE MODAL (INSIGHTS & LEGEND)
+// ===========================
+function initSideModal() {
+    const sideTab = document.getElementById('side-tab');
+    const sideModal = document.getElementById('side-modal');
+    const sideCloseBtn = document.getElementById('side-modal-close-btn');
+
+    // Open modal when clicking the tab
+    sideTab.addEventListener('click', () => {
+        openSideModal();
+    });
+
+    // Close modal when clicking the close button
+    sideCloseBtn.addEventListener('click', () => {
+        closeSideModal();
+    });
+
+    // Close modal when clicking outside the content
+    sideModal.addEventListener('click', (e) => {
+        if (e.target === sideModal) {
+            closeSideModal();
+        }
+    });
+
+    // Close modal with Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && sideModal.classList.contains('active')) {
+            closeSideModal();
+        }
+    });
+
+    function openSideModal() {
+        sideModal.classList.add('active');
+        document.body.style.overflow = 'hidden'; // Prevent background scrolling
+
+        // Re-initialize accordion for insights
+        initInsightsAccordion();
+    }
+
+    function closeSideModal() {
+        sideModal.classList.remove('active');
+        document.body.style.overflow = ''; // Restore scrolling
+    }
+}
+
+function updateSideModal(activeTab) {
+    const sideTab = document.getElementById('side-tab');
+    const sideTabText = document.getElementById('side-tab-text');
+    const sideModalTitle = document.getElementById('side-modal-title');
+    const sideModalBody = document.getElementById('side-modal-body');
+
+    // Show/hide side tab based on current tab
+    if (activeTab === 'matrix') {
+        // Matrix tab - show Insights
+        sideTab.classList.add('visible');
+        sideTabText.textContent = 'Insights';
+        sideModalTitle.innerHTML = '💡 Insights da Matriz de Acesso';
+
+        // Load insights content
+        const insightsTemplate = document.getElementById('insights-template');
+        sideModalBody.innerHTML = insightsTemplate.innerHTML;
+
+    } else if (activeTab === 'scenarios') {
+        // Scenarios tab - show Legend
+        sideTab.classList.add('visible');
+        sideTabText.textContent = 'Legenda';
+        sideModalTitle.innerHTML = '📋 Legenda das Identificações';
+
+        // Load legend content
+        const legendTemplate = document.getElementById('legend-template');
+        sideModalBody.innerHTML = legendTemplate.innerHTML;
+
+    } else {
+        // Other tabs - hide side tab
+        sideTab.classList.remove('visible');
+
+        // Close modal if it's open
+        const sideModal = document.getElementById('side-modal');
+        if (sideModal.classList.contains('active')) {
+            sideModal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    }
+}
+
+function initInsightsAccordion() {
+    const insightQuestions = document.querySelectorAll('#side-modal .insight-question');
+
+    insightQuestions.forEach(question => {
+        // Remove any existing listeners to prevent duplicates
+        question.replaceWith(question.cloneNode(true));
+    });
+
+    // Re-select after cloning
+    const newInsightQuestions = document.querySelectorAll('#side-modal .insight-question');
+
+    newInsightQuestions.forEach(question => {
+        question.addEventListener('click', () => {
+            const answer = question.nextElementSibling;
+            const isActive = question.classList.contains('active');
+
+            // Close all insights
+            document.querySelectorAll('#side-modal .insight-question').forEach(q => q.classList.remove('active'));
+            document.querySelectorAll('#side-modal .insight-answer').forEach(a => a.classList.remove('active'));
+
+            // Open clicked insight if it wasn't active
+            if (!isActive) {
+                question.classList.add('active');
+                answer.classList.add('active');
+            }
+        });
+    });
 }
