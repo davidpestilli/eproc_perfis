@@ -747,26 +747,26 @@ const scenarios = [
     },
     {
         id: "7",
-        titulo: "Sigilo 4: Bloqueio Absoluto",
+        titulo: "Sigilo 4: Requer Permissão Expressa",
         sigiloProcesso: 4,
         sigiloDocumentos: 4,
         procurador: true,
         entidade: true,
         resultado: "NEGADO",
         anomalia: false,
-        descricao: "Bloqueio total mesmo com todos os fatores favoráveis (intimação + vinculação + localidade). Sigilo 4 impede qualquer acesso de analistas.",
+        descricao: "Sigilo 4 bloqueia acesso mesmo com intimação + vinculação + localidade. Com permissão expressa específica, o analista consegue consultar e peticionar normalmente.",
         relevancia: "CRÍTICA"
     },
     {
         id: "8",
-        titulo: "Sigilo 5: Exclusivo do Juiz",
+        titulo: "Sigilo 5: Requer Permissão Expressa",
         sigiloProcesso: 5,
         sigiloDocumentos: 5,
         procurador: false,
         entidade: false,
         resultado: "NEGADO",
         anomalia: false,
-        descricao: "Acesso exclusivo do Juiz. Nenhuma condição (intimação, vinculação, Vista ou permissão expressa) permite acesso para analistas.",
+        descricao: "Sigilo 5 é o nível mais restritivo. Sem permissão expressa, o acesso é exclusivo do Juiz. Com permissão expressa específica, o analista consegue consultar e peticionar.",
         relevancia: "CRÍTICA"
     },
     {

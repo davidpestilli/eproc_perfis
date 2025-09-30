@@ -227,12 +227,11 @@ async function renderMatrix() {
     const dataSource = matrizData.length > 0 ? matrizData : rawData;
 
     let filteredData = dataSource.filter(row => {
-        // Filter by sigilo
+        // Filter by sigilo (apenas Sigilo Proc.)
         if (sigiloFilter !== 'all') {
             const sigilo = parseInt(sigiloFilter);
             const sigiloProc = row.sigilo_processo !== undefined ? row.sigilo_processo : row.sigiloProcesso;
-            const sigiloDoc = row.sigilo_documento !== undefined ? row.sigilo_documento : row.sigiloDocumento;
-            if (sigiloProc !== sigilo && sigiloDoc !== sigilo) return false;
+            if (sigiloProc !== sigilo) return false;
         }
 
         // Filter by intimacao
