@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Análise de Acesso Analista Procuradoria</title>
     <link rel="stylesheet" href="styles.css">
+    <!-- Supabase JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
     <div class="container">
@@ -117,9 +119,13 @@
                         <span class="filter-label">Filtrar por Acesso:</span>
                         <select id="filter-access">
                             <option value="all">Todos</option>
-                            <option value="SIM">✓ Total</option>
-                            <option value="PARCIALMENTE">◐ Parcial</option>
-                            <option value="NÃO">✗ Negado</option>
+                            <option value="TOTAL">✓ Total</option>
+                            <option value="CAPA_E_DOCUMENTOS">📄 Capa e Documentos</option>
+                            <option value="CAPA_E_EVENTOS_SEM_DOCS">📋 Capa e Eventos (Sem Docs)</option>
+                            <option value="APENAS_CAPA_DOCUMENTOS_JUDICIAIS">📑 Apenas Capa Docs Judiciais</option>
+                            <option value="APENAS_CAPA_BASICA">📃 Apenas Capa Básica</option>
+                            <option value="APENAS_CABECALHO">📌 Apenas Cabeçalho</option>
+                            <option value="NEGADO">✗ Negado</option>
                         </select>
                     </label>
                     <label>
@@ -150,6 +156,16 @@
                     </div>
                 </div>
 
+                <div class="matrix-actions">
+                    <button id="global-edit-btn" class="global-edit-btn">
+                        ✏️ Editar
+                    </button>
+                    <button id="add-new-row-btn" class="add-row-btn" style="display: none;">
+                        ➕ Adicionar Nova Linha
+                    </button>
+                    <span id="sync-status" class="sync-status"></span>
+                </div>
+
                 <div class="table-wrapper">
                     <table id="access-matrix">
                         <thead>
@@ -165,6 +181,7 @@
                                 <th class="col-sigilo">Sigilo<br>Doc.</th>
                                 <th class="col-tipo-acesso">Tipo de<br>Acesso</th>
                                 <th class="col-observacoes">Observações</th>
+                                <th class="col-actions" id="actions-header" style="width: 80px; display: none;">Ações</th>
                             </tr>
                         </thead>
                         <tbody id="matrix-body">
@@ -574,6 +591,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <script src="data.js"></script>
+    <script src="supabase-client.js"></script>
     <script src="app.js"></script>
 </body>
 </html>
