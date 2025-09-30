@@ -443,8 +443,17 @@ tbody tr {
     transition: all 0.2s ease;
 }
 
+/* Zebra striping - alternating row colors */
+tbody tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+tbody tr:nth-child(odd) {
+    background-color: white;
+}
+
 tbody tr:hover {
-    background: var(--bg-color);
+    background: #e3f2fd !important;
     transform: translateX(2px);
 }
 
