@@ -468,9 +468,9 @@ const rawData = [
     },
     {
         perfil: "Analista Procuradoria",
-        procuradorVinculado: "N/A",
-        mpIntimado: "N/A",
-        vistaMP: "N/A",
+        procuradorVinculado: "NÃO",
+        mpIntimado: "NÃO",
+        vistaMP: "NÃO",
         localidade: "N/A",
         rito: "N/A",
         sigiloProcesso: 5,

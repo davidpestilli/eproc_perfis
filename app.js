@@ -9,7 +9,105 @@ document.addEventListener('DOMContentLoaded', function() {
     renderScenarios();
     updateStats();
     initSideModal();
+    initComparison();
 });
+
+// ===========================
+// COMPARISON FUNCTIONALITY
+// ===========================
+let selectedRows = [];
+
+function initComparison() {
+    const clearBtn = document.getElementById('clear-comparison');
+    const selectAllCheckbox = document.getElementById('select-all-checkbox');
+
+    clearBtn.addEventListener('click', clearComparison);
+    selectAllCheckbox.addEventListener('change', toggleSelectAll);
+}
+
+function toggleRowSelection(checkbox, rowIndex, rowData) {
+    if (checkbox.checked) {
+        selectedRows.push({ index: rowIndex, data: rowData });
+    } else {
+        selectedRows = selectedRows.filter(r => r.index !== rowIndex);
+    }
+    updateComparisonBox();
+}
+
+function toggleSelectAll() {
+    const selectAllCheckbox = document.getElementById('select-all-checkbox');
+    const checkboxes = document.querySelectorAll('.row-checkbox');
+
+    checkboxes.forEach(checkbox => {
+        checkbox.checked = selectAllCheckbox.checked;
+        const rowIndex = parseInt(checkbox.dataset.rowIndex);
+        const rowData = JSON.parse(checkbox.dataset.rowData);
+
+        if (selectAllCheckbox.checked) {
+            if (!selectedRows.find(r => r.index === rowIndex)) {
+                selectedRows.push({ index: rowIndex, data: rowData });
+            }
+        }
+    });
+
+    if (!selectAllCheckbox.checked) {
+        selectedRows = [];
+    }
+
+    updateComparisonBox();
+}
+
+function updateComparisonBox() {
+    const comparisonBox = document.getElementById('comparison-box');
+    const comparisonContent = document.getElementById('comparison-content');
+
+    if (selectedRows.length === 0) {
+        comparisonBox.style.display = 'none';
+        return;
+    }
+
+    comparisonBox.style.display = 'block';
+
+    let html = '<div class="comparison-table-wrapper"><table class="comparison-table"><thead><tr>';
+    html += '<th>#</th>';
+    html += '<th>Intimação MP</th>';
+    html += '<th>Vista MP</th>';
+    html += '<th>Procurador Vinc.</th>';
+    html += '<th>Sigilo Proc.</th>';
+    html += '<th>Sigilo Doc.</th>';
+    html += '<th>Tipo de Acesso</th>';
+    html += '<th>Observações</th>';
+    html += '</tr></thead><tbody>';
+
+    selectedRows.forEach(row => {
+        const data = row.data;
+        let tipoAcessoText = data.tipoAcesso || 'N/A';
+        tipoAcessoText = tipoAcessoText.replace(/_/g, ' ').toLowerCase();
+        tipoAcessoText = tipoAcessoText.charAt(0).toUpperCase() + tipoAcessoText.slice(1);
+
+        html += '<tr>';
+        html += `<td><strong>${row.index}</strong></td>`;
+        html += `<td>${data.mpIntimado === 'N/A' ? '—' : data.mpIntimado}</td>`;
+        html += `<td>${data.vistaMP === 'N/A' ? '—' : data.vistaMP}</td>`;
+        html += `<td>${data.procuradorVinculado}</td>`;
+        html += `<td>${data.sigiloProcesso}</td>`;
+        html += `<td>${data.sigiloDocumento}</td>`;
+        html += `<td style="font-size: 0.85rem;">${tipoAcessoText}</td>`;
+        html += `<td style="font-size: 0.85rem;">${data.comentarios || '—'}</td>`;
+        html += '</tr>';
+    });
+
+    html += '</tbody></table></div>';
+    comparisonContent.innerHTML = html;
+}
+
+function clearComparison() {
+    selectedRows = [];
+    const checkboxes = document.querySelectorAll('.row-checkbox');
+    checkboxes.forEach(cb => cb.checked = false);
+    document.getElementById('select-all-checkbox').checked = false;
+    updateComparisonBox();
+}
 
 function initTabs() {
     const tabButtons = document.querySelectorAll('.tab-btn');
@@ -88,7 +186,6 @@ function renderMatrix() {
     const intimacaoFilter = document.getElementById('filter-intimacao').value;
     const vistaFilter = document.getElementById('filter-vista').value;
     const tbody = document.getElementById('matrix-body');
-    const summaryDiv = document.getElementById('matrix-summary');
 
     let filteredData = rawData.filter(row => {
         // Filter by sigilo
@@ -115,35 +212,11 @@ function renderMatrix() {
         return true;
     });
 
-    // Update summary
-    const totalFiltered = filteredData.length;
-    const acessoTotal = filteredData.filter(r => r.visualizaDocumentos === 'SIM').length;
-    const acessoParcial = filteredData.filter(r => r.visualizaDocumentos === 'PARCIALMENTE').length;
-    const acessoNegado = filteredData.filter(r => r.visualizaDocumentos === 'NÃO').length;
-
-    summaryDiv.innerHTML = `
-        <div class="summary-item">
-            <div class="summary-label">Total</div>
-            <div class="summary-value">${totalFiltered}</div>
-        </div>
-        <div class="summary-item">
-            <div class="summary-label">Acesso Total</div>
-            <div class="summary-value" style="color: var(--success-color)">${acessoTotal}</div>
-        </div>
-        <div class="summary-item">
-            <div class="summary-label">Acesso Parcial</div>
-            <div class="summary-value" style="color: var(--warning-color)">${acessoParcial}</div>
-        </div>
-        <div class="summary-item">
-            <div class="summary-label">Acesso Negado</div>
-            <div class="summary-value" style="color: var(--danger-color)">${acessoNegado}</div>
-        </div>
-    `;
-
     tbody.innerHTML = '';
 
-    filteredData.forEach(row => {
+    filteredData.forEach((row, index) => {
         const tr = document.createElement('tr');
+        const rowNumber = index + 1;
 
         const accessClass = row.visualizaDocumentos === 'SIM' ? 'access-sim' :
                            row.visualizaDocumentos === 'NÃO' ? 'access-nao' :
@@ -165,6 +238,10 @@ function renderMatrix() {
         }
 
         tr.innerHTML = `
+            <td style="text-align: center;">
+                <input type="checkbox" class="row-checkbox" data-row-index="${rowNumber}" data-row-data='${JSON.stringify(row)}'>
+            </td>
+            <td style="text-align: center; font-weight: bold; color: var(--primary-color);">${rowNumber}</td>
             <td data-intimacao="${row.mpIntimado}">${row.mpIntimado === 'N/A' ? '<em style="color: var(--text-secondary)">—</em>' : row.mpIntimado}</td>
             <td data-vista="${row.vistaMP}">${row.vistaMP === 'N/A' ? '<em style="color: var(--text-secondary)">—</em>' : row.vistaMP}</td>
             <td data-vinculacao="${row.procuradorVinculado}">${row.procuradorVinculado}</td>
@@ -174,13 +251,21 @@ function renderMatrix() {
             <td class="observacoes-cell" style="font-size: 0.9rem;">${highlightedObservations}</td>
         `;
 
+        // Add event listener to checkbox
+        const checkbox = tr.querySelector('.row-checkbox');
+        checkbox.addEventListener('change', function() {
+            toggleRowSelection(this, rowNumber, row);
+        });
+
         tbody.appendChild(tr);
     });
 
     if (filteredData.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 30px; color: var(--text-secondary);">Nenhum resultado encontrado com os filtros selecionados</td></tr>';
-        summaryDiv.innerHTML = '';
+        tbody.innerHTML = '<tr><td colspan="9" style="text-align: center; padding: 30px; color: var(--text-secondary);">Nenhum resultado encontrado com os filtros selecionados</td></tr>';
     }
+
+    // Clear comparison when filters change
+    clearComparison();
 }
 
 // ===========================

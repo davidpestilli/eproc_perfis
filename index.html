@@ -140,14 +140,24 @@
                     </label>
                 </div>
 
-                <div class="matrix-summary" id="matrix-summary">
-                    <!-- Será preenchido via JavaScript -->
+                <div id="comparison-box" class="comparison-box" style="display: none;">
+                    <div class="comparison-header">
+                        <h3>📊 Comparação de Linhas</h3>
+                        <button id="clear-comparison" class="clear-btn">Limpar Comparação</button>
+                    </div>
+                    <div id="comparison-content" class="comparison-content">
+                        <!-- Linhas selecionadas serão exibidas aqui -->
+                    </div>
                 </div>
 
                 <div class="table-wrapper">
                     <table id="access-matrix">
                         <thead>
                             <tr>
+                                <th class="col-checkbox" style="width: 40px;">
+                                    <input type="checkbox" id="select-all-checkbox" title="Selecionar/Desselecionar todos">
+                                </th>
+                                <th class="col-numero" style="width: 50px;">#</th>
                                 <th class="col-intimacao">Intimação<br>MP</th>
                                 <th class="col-vista">Vista<br>MP</th>
                                 <th class="col-vinculacao">Procurador<br>Vinc.</th>
