@@ -405,8 +405,11 @@ canvas {
 
 .table-wrapper {
     overflow-x: auto;
+    overflow-y: auto;
+    max-height: 600px;
     border-radius: 8px;
     border: 1px solid var(--border-color);
+    position: relative;
 }
 
 table {
@@ -416,10 +419,15 @@ table {
 }
 
 thead {
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    background: var(--primary-color);
     position: sticky;
     top: 0;
     z-index: 10;
+}
+
+thead th {
+    background: var(--primary-color);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 th {
