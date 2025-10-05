@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initComparison();
     initAddNewRowButton();
     initGlobalEditButton();
+    initDownloadCSVButton();
 });
 
 function initAddNewRowButton() {
@@ -25,6 +26,13 @@ function initGlobalEditButton() {
     const editBtn = document.getElementById('global-edit-btn');
     if (editBtn) {
         editBtn.addEventListener('click', toggleGlobalEditMode);
+    }
+}
+
+function initDownloadCSVButton() {
+    const downloadBtn = document.getElementById('download-csv-btn');
+    if (downloadBtn) {
+        downloadBtn.addEventListener('click', downloadCSV);
     }
 }
 
@@ -252,7 +260,14 @@ async function renderMatrix() {
         // Filter by access (tipo_acesso)
         if (accessFilter !== 'all') {
             const tipoAcesso = row.tipo_acesso !== undefined ? row.tipo_acesso : row.tipoAcesso;
-            if (tipoAcesso !== accessFilter) return false;
+
+            if (accessFilter === 'PARCIAL') {
+                // Parcial engloba tudo que não seja Total nem Negado
+                if (tipoAcesso === 'TOTAL' || tipoAcesso === 'NEGADO') return false;
+            } else {
+                // Para Total e Negado, comparação direta
+                if (tipoAcesso !== accessFilter) return false;
+            }
         }
 
         return true;
@@ -480,6 +495,7 @@ function toggleGlobalEditMode() {
 
     const editBtn = document.getElementById('global-edit-btn');
     const addBtn = document.getElementById('add-new-row-btn');
+    const downloadBtn = document.getElementById('download-csv-btn');
     const actionsHeader = document.getElementById('actions-header');
 
     if (isGlobalEditMode) {
@@ -487,12 +503,14 @@ function toggleGlobalEditMode() {
         editBtn.textContent = '💾 Salvar Tudo';
         editBtn.classList.add('save-mode');
         addBtn.style.display = 'inline-block';
+        downloadBtn.style.display = 'none';
         actionsHeader.style.display = 'table-cell';
     } else {
         // Voltar para modo CONSULTA
         editBtn.textContent = '✏️ Editar';
         editBtn.classList.remove('save-mode');
         addBtn.style.display = 'none';
+        downloadBtn.style.display = 'inline-flex';
         actionsHeader.style.display = 'none';
 
         // Salvar todas as alterações pendentes
@@ -567,6 +585,107 @@ function showSyncStatus(message, type = 'info') {
         statusEl.textContent = '';
         statusEl.className = 'sync-status';
     }, 3000);
+}
+
+// ===========================
+// DOWNLOAD CSV
+// ===========================
+function downloadCSV() {
+    const sigiloFilter = document.getElementById('filter-sigilo').value;
+    const accessFilter = document.getElementById('filter-access').value;
+    const vistaFilter = document.getElementById('filter-vista').value;
+
+    // Usar os mesmos dados e filtros da tabela
+    const dataSource = matrizData.length > 0 ? matrizData : rawData;
+
+    // Ordenar por sigilo_processo ASC, depois por sigilo_documento ASC
+    const sortedData = dataSource.sort((a, b) => {
+        const sigiloProcA = a.sigilo_processo !== undefined ? a.sigilo_processo : a.sigiloProcesso;
+        const sigiloProcB = b.sigilo_processo !== undefined ? b.sigilo_processo : b.sigiloProcesso;
+        const sigiloDocA = a.sigilo_documento !== undefined ? a.sigilo_documento : a.sigiloDocumento;
+        const sigiloDocB = b.sigilo_documento !== undefined ? b.sigilo_documento : b.sigiloDocumento;
+
+        if (sigiloProcA !== sigiloProcB) {
+            return sigiloProcA - sigiloProcB;
+        }
+        return sigiloDocA - sigiloDocB;
+    });
+
+    // Aplicar mesmos filtros da tabela
+    let filteredData = sortedData.filter(row => {
+        if (sigiloFilter !== 'all') {
+            const sigilo = parseInt(sigiloFilter);
+            const sigiloProc = row.sigilo_processo !== undefined ? row.sigilo_processo : row.sigiloProcesso;
+            if (sigiloProc !== sigilo) return false;
+        }
+
+        if (vistaFilter !== 'all') {
+            const vista = row.vista_mp !== undefined ? row.vista_mp : row.vistaMP;
+            if (vista !== vistaFilter) return false;
+        }
+
+        if (accessFilter !== 'all') {
+            const tipoAcesso = row.tipo_acesso !== undefined ? row.tipo_acesso : row.tipoAcesso;
+
+            if (accessFilter === 'PARCIAL') {
+                if (tipoAcesso === 'TOTAL' || tipoAcesso === 'NEGADO') return false;
+            } else {
+                if (tipoAcesso !== accessFilter) return false;
+            }
+        }
+
+        return true;
+    });
+
+    // Criar cabeçalho CSV
+    const headers = [
+        '#',
+        'MP Vinculado ao Processo',
+        'Procurador associado ao analista e vinculado ao processo',
+        'Sigilo Proc.',
+        'Sigilo Doc.',
+        'Tipo de Acesso',
+        'Observações'
+    ];
+
+    // Criar linhas CSV
+    const rows = filteredData.map((row, index) => {
+        const vistaMp = row.vista_mp !== undefined ? row.vista_mp : row.vistaMP;
+        const procuradorVinc = row.procurador_vinculado !== undefined ? row.procurador_vinculado : row.procuradorVinculado;
+        const sigiloProc = row.sigilo_processo !== undefined ? row.sigilo_processo : row.sigiloProcesso;
+        const sigiloDoc = row.sigilo_documento !== undefined ? row.sigilo_documento : row.sigiloDocumento;
+        const tipoAcesso = row.tipo_acesso !== undefined ? row.tipo_acesso : row.tipoAcesso;
+        const observacoes = row.observacoes !== undefined ? row.observacoes : row.comentarios;
+
+        return [
+            index + 1,
+            vistaMp || '',
+            procuradorVinc || '',
+            sigiloProc,
+            sigiloDoc,
+            tipoAcesso || '',
+            `"${(observacoes || '').replace(/"/g, '""')}"` // Escape aspas duplas
+        ];
+    });
+
+    // Combinar cabeçalho e linhas
+    const csvContent = [
+        headers.join(','),
+        ...rows.map(row => row.join(','))
+    ].join('\n');
+
+    // Criar e fazer download do arquivo
+    const blob = new Blob(['\ufeff' + csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+
+    link.setAttribute('href', url);
+    link.setAttribute('download', `matriz_acesso_${new Date().toISOString().split('T')[0]}.csv`);
+    link.style.visibility = 'hidden';
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
 }
 
 // ===========================

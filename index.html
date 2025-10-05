@@ -119,13 +119,9 @@
                         <span class="filter-label">Filtrar por Acesso:</span>
                         <select id="filter-access">
                             <option value="all">Todos</option>
-                            <option value="TOTAL">✓ Total</option>
-                            <option value="CAPA_E_DOCUMENTOS">📄 Capa e Documentos</option>
-                            <option value="CAPA_E_EVENTOS_SEM_DOCS">📋 Capa e Eventos (Sem Docs)</option>
-                            <option value="APENAS_CAPA_DOCUMENTOS_JUDICIAIS">📑 Apenas Capa Docs Judiciais</option>
-                            <option value="APENAS_CAPA_BASICA">📃 Apenas Capa Básica</option>
-                            <option value="APENAS_CABECALHO">📌 Apenas Cabeçalho</option>
-                            <option value="NEGADO">✗ Negado</option>
+                            <option value="TOTAL">Total</option>
+                            <option value="NEGADO">Negado</option>
+                            <option value="PARCIAL">Parcial</option>
                         </select>
                     </label>
                     <label>
@@ -149,6 +145,9 @@
                 </div>
 
                 <div class="matrix-actions">
+                    <button id="download-csv-btn" class="download-csv-btn">
+                        📥 Download CSV
+                    </button>
                     <button id="global-edit-btn" class="global-edit-btn">
                         ✏️ Editar
                     </button>
