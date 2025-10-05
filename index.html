@@ -28,23 +28,15 @@
                 <h2>Fatores de Influência no Acesso</h2>
                 <p class="factors-subtitle">Passe o mouse sobre cada fator para ver mais detalhes</p>
                 <ul class="factors-list">
-                    <li class="factor-item" data-tooltip="INTIMAÇÃO DO MP (vinculação forte): Quando o MP foi intimado E o analista está vinculado ao procurador E mesma comarca/rito, permite ACESSO TOTAL + PETICIONAMENTO até sigilo 2. Sem intimação formal, não há permissão para peticionar mesmo com acesso aos autos.">
-                        <span class="factor-icon">⚖️</span>
-                        <div class="factor-content">
-                            <strong>Intimação do MP</strong>
-                            <span class="factor-desc">Acesso + Peticionamento (sigilo 0-2)</span>
-                            <span class="info-icon">ℹ️</span>
-                        </div>
-                    </li>
-                    <li class="factor-item" data-tooltip="VISTA AO MP (vinculação parcial): Mais forte do que inicialmente previsto! Com Vista ao MP, o analista tem acesso à capa e documentos até sigilo 2, MAS NÃO pode peticionar. Importante: Sigilo 1 não é liberado pela Vista (apenas cabeçalho). Sigilo 2 COM Vista = acesso total.">
+                    <li class="factor-item" data-tooltip="MP Vinculado ao Processo: Quando o processo possui vista ao MP, o analista tem melhor acesso aos documentos. Vista ao MP funciona para sigilo 0 e 2, mas apresenta comportamento inconsistente para sigilo 1 (apenas cabeçalho).">
                         <span class="factor-icon">👁️</span>
                         <div class="factor-content">
-                            <strong>Vista ao MP</strong>
-                            <span class="factor-desc">Acesso até sigilo 2 (sem peticionar)</span>
+                            <strong>MP Vinculado ao Processo</strong>
+                            <span class="factor-desc">Acesso até sigilo 2 (com exceção do sigilo 1)</span>
                             <span class="info-icon">ℹ️</span>
                         </div>
                     </li>
-                    <li class="factor-item" data-tooltip="Quando o procurador ao qual o analista está associado está vinculado diretamente ao processo, o analista tem acesso completo até sigilo 2. Com intimação do MP + localidade/rito corretos, permite peticionamento. Sem intimação do MP, apenas visualização.">
+                    <li class="factor-item" data-tooltip="Quando o procurador ao qual o analista está associado está vinculado diretamente ao processo, o analista obtém acesso aos documentos até sigilo 2. A combinação de procurador vinculado + MP vinculado ao processo proporciona acesso total até sigilo 2.">
                         <span class="factor-icon">🔗</span>
                         <div class="factor-content">
                             <strong>Vinculação do Procurador</strong>
@@ -52,43 +44,27 @@
                             <span class="info-icon">ℹ️</span>
                         </div>
                     </li>
-                    <li class="factor-item" data-tooltip="SIGILO 3: Requer permissão expressa. SIGILO 4: Bloqueia acesso mesmo com intimação e vinculação. SIGILO 5: Exclusivo do Juiz, bloqueio absoluto. Vista ao MP não funciona para sigilo 3+.">
+                    <li class="factor-item" data-tooltip="SIGILO 3, 4 e 5: Processos ou documentos com sigilo nível 3 ou superior bloqueiam completamente o acesso do analista, independentemente de haver MP vinculado ao processo ou procurador vinculado. Esses níveis de sigilo representam restrições absolutas no sistema.">
                         <span class="factor-icon">🔒</span>
                         <div class="factor-content">
                             <strong>Sigilos 3, 4 e 5</strong>
-                            <span class="factor-desc">Bloqueios progressivos</span>
+                            <span class="factor-desc">Bloqueio absoluto de acesso</span>
                             <span class="info-icon">ℹ️</span>
                         </div>
                     </li>
-                    <li class="factor-item" data-tooltip="Para PETICIONAR (não apenas visualizar), são necessários TODOS estes requisitos: (1) MP intimado, (2) Analista vinculado ao procurador, (3) Mesma comarca E rito, (4) Sigilo 0-2. Falta de qualquer um desses fatores = apenas visualização ou acesso negado.">
-                        <span class="factor-icon">📝</span>
+                    <li class="factor-item" data-tooltip="Sigilo 1 apresenta comportamento inconsistente: mesmo com MP vinculado ao processo, o analista tem acesso apenas ao cabeçalho (nome das partes). Este comportamento é diferente do sigilo 0 (que permite mais acesso) e do sigilo 2 (que também permite acesso completo com MP vinculado).">
+                        <span class="factor-icon">⚠️</span>
                         <div class="factor-content">
-                            <strong>Capacidade de Peticionamento</strong>
-                            <span class="factor-desc">Requer intimação + vinculação + comarca/rito</span>
+                            <strong>Anomalia do Sigilo 1</strong>
+                            <span class="factor-desc">Mais restritivo que sigilo 0 e 2</span>
                             <span class="info-icon">ℹ️</span>
                         </div>
                     </li>
-                    <li class="factor-item" data-tooltip="Localidade/Rito é relevante apenas para PETICIONAMENTO. Para visualização, se houver procurador vinculado, o analista tem acesso mesmo em localidade diferente. Existem casos parciais: 'mesma localidade apenas' ou 'mesmo rito apenas' que permitem acesso mas não peticionamento.">
-                        <span class="factor-icon">📍</span>
-                        <div class="factor-content">
-                            <strong>Localidade/Rito</strong>
-                            <span class="factor-desc">Relevante para peticionamento</span>
-                            <span class="info-icon">ℹ️</span>
-                        </div>
-                    </li>
-                    <li class="factor-item" data-tooltip="Permissão expressa pode contornar restrições de sigilo. VULNERABILIDADE: É possível contornar a impossibilidade de conceder permissão para sigilo 0 elevando temporariamente o sigilo, concedendo permissão, e depois retornando para 0.">
-                        <span class="factor-icon">🔑</span>
-                        <div class="factor-content">
-                            <strong>Permissão Expressa</strong>
-                            <span class="factor-desc">Contorna restrições (com vulnerabilidade)</span>
-                            <span class="info-icon">ℹ️</span>
-                        </div>
-                    </li>
-                    <li class="factor-item" data-tooltip="Existem 7 níveis distintos: (1) Total, (2) Capa+Documentos, (3) Capa+Eventos sem Docs, (4) Apenas Capa Básica, (5) Apenas Cabeçalho, (6) Apenas Documentos Judiciais, (7) Negado. O nível depende da combinação de intimação, vista, sigilo e vinculação.">
+                    <li class="factor-item" data-tooltip="O sistema possui 3 categorias de acesso: (1) Total - acesso completo à capa, eventos e documentos; (2) Parcial - acesso limitado (apenas cabeçalho, ou acesso à capa mas não aos documentos); (3) Negado - nenhum acesso ou acesso bloqueado.">
                         <span class="factor-icon">📊</span>
                         <div class="factor-content">
-                            <strong>Granularidade de Acesso</strong>
-                            <span class="factor-desc">7 níveis diferentes de acesso</span>
+                            <strong>Níveis de Acesso</strong>
+                            <span class="factor-desc">Total, Parcial ou Negado</span>
                             <span class="info-icon">ℹ️</span>
                         </div>
                     </li>
@@ -202,114 +178,83 @@
                 <h2>⚠️ Descobertas Importantes e Inconsistências</h2>
 
                 <div class="anomaly-item critical">
-                    <h3>1. Vista ao MP é mais forte do que previsto (DESCOBERTA CRÍTICA)</h3>
+                    <h3>1. MP Vinculado ao Processo + Sigilo 2: Acesso Total (DESCOBERTA IMPORTANTE)</h3>
                     <div class="anomaly-details">
-                        <p><strong>Cenário:</strong> Processos com SIGILO 2 + SEM intimação do MP + COM Vista ao MP</p>
+                        <p><strong>Cenário:</strong> Processos com SIGILO 2 + MP vinculado ao processo, mesmo SEM procurador vinculado</p>
                         <p><strong>Comportamento Observado:</strong> Analista tem acesso TOTAL à capa e documentos</p>
-                        <p><strong>Relevância:</strong> Na análise inicial, acreditava-se que sigilo 2 sem intimação bloqueava acesso. A Vista ao MP concede acesso mesmo sem intimação formal.</p>
+                        <p><strong>Relevância:</strong> MP vinculado ao processo é suficiente para conceder acesso total em processos com sigilo 2, mesmo sem procurador vinculado.</p>
                         <p><strong>Classificação:</strong> <span class="badge info">DESCOBERTA IMPORTANTE</span></p>
-                        <p><strong>Impacto:</strong> Redefinição do poder da "Vista ao MP" - é mais forte que vinculação parcial</p>
-                        <p><strong>Limitação:</strong> Vista ao MP NÃO funciona para sigilo 1 (apenas cabeçalho) nem sigilo 3+ (bloqueio total)</p>
+                        <p><strong>Impacto:</strong> MP vinculado ao processo tem forte influência no acesso</p>
+                        <p><strong>Limitação:</strong> MP vinculado ao processo NÃO funciona para sigilo 1 (apenas cabeçalho) nem sigilo 3+ (bloqueio total)</p>
                     </div>
                 </div>
 
                 <div class="anomaly-item critical">
-                    <h3>2. Sigilo 1 com Vista ao MP: Comportamento Inesperado</h3>
+                    <h3>2. Sigilo 1 com MP Vinculado: Comportamento Inconsistente</h3>
                     <div class="anomaly-details">
-                        <p><strong>Cenário:</strong> Processo com SIGILO 1 + Vista ao MP</p>
+                        <p><strong>Cenário:</strong> Processo com SIGILO 1 + MP vinculado ao processo</p>
                         <p><strong>Comportamento Observado:</strong> Analista tem acesso apenas ao cabeçalho da capa (nome das partes)</p>
-                        <p><strong>Inconsistência:</strong> Vista ao MP funciona para sigilo 0 e sigilo 2, mas NÃO funciona para sigilo 1</p>
+                        <p><strong>Inconsistência:</strong> MP vinculado ao processo funciona para sigilo 0 e sigilo 2, mas NÃO funciona para sigilo 1</p>
                         <p><strong>Classificação:</strong> <span class="badge warning">COMPORTAMENTO INCONSISTENTE</span></p>
-                        <p><strong>Impacto:</strong> Lógica não linear - sigilo 1 é mais restritivo que sigilo 2 quando há Vista ao MP</p>
+                        <p><strong>Impacto:</strong> Lógica não linear - sigilo 1 é mais restritivo que sigilo 0 e sigilo 2 quando há MP vinculado ao processo</p>
+                        <p><strong>Observação nos dados:</strong> Múltiplos registros confirmam este padrão, com notas explícitas sobre o comportamento anormal</p>
                     </div>
                 </div>
 
                 <div class="anomaly-item critical">
-                    <h3>3. Sigilos 4 e 5: Bloqueio Absoluto</h3>
+                    <h3>3. Sigilos 3, 4 e 5: Bloqueio Absoluto</h3>
                     <div class="anomaly-details">
-                        <p><strong>Cenário SIGILO 4:</strong> Mesmo com intimação do MP + procurador vinculado + comarca/rito correto</p>
-                        <p><strong>Comportamento:</strong> Acesso NEGADO (processo sigiloso)</p>
-                        <p><strong>Cenário SIGILO 5:</strong> Acesso exclusivo do Juiz</p>
+                        <p><strong>Cenário:</strong> Processos ou documentos com sigilo 3 ou superior</p>
+                        <p><strong>Comportamento Observado:</strong> Acesso NEGADO, independentemente de haver MP vinculado ao processo ou procurador vinculado</p>
+                        <p><strong>Detalhamento por nível:</strong></p>
+                        <ul>
+                            <li><strong>Sigilo 3:</strong> Bloqueio absoluto. Observações indicam necessidade de permissão expressa</li>
+                            <li><strong>Sigilo 4:</strong> Processo sigiloso - bloqueio absoluto. Observações indicam necessidade de permissão expressa</li>
+                            <li><strong>Sigilo 5:</strong> Nível mais restritivo, acesso exclusivo do Juiz. Observações indicam que somente o juiz pode conceder permissão expressa</li>
+                        </ul>
                         <p><strong>Classificação:</strong> <span class="badge critical">BLOQUEIO ABSOLUTO</span></p>
-                        <p><strong>Relevância:</strong> Análise inicial só testou até sigilo 2-3. Sigilos 4 e 5 têm regras completamente diferentes.</p>
-                    </div>
-                </div>
-
-                <div class="anomaly-item warning">
-                    <h3>4. Contorno para Permissão Expressa em Sigilo 0 (VULNERABILIDADE)</h3>
-                    <div class="anomaly-details">
-                        <p><strong>Descrição:</strong> Sistema não permite concessão direta de permissão expressa para sigilo 0</p>
-                        <p><strong>Contorno Identificado:</strong></p>
-                        <ol>
-                            <li>Elevar nível de sigilo temporariamente (ex: para sigilo 1)</li>
-                            <li>Conceder permissão expressa para o sigilo 1</li>
-                            <li>Retornar sigilo para 0</li>
-                            <li>Sistema mantém a permissão anteriormente concedida</li>
-                        </ol>
-                        <p><strong>Classificação:</strong> <span class="badge warning">VULNERABILIDADE DE SEGURANÇA</span></p>
-                        <p><strong>Impacto:</strong> Controle de segurança pode ser completamente contornado</p>
-                    </div>
-                </div>
-
-                <div class="anomaly-item warning">
-                    <h3>5. Granularidade de Acesso: 7 Níveis Distintos</h3>
-                    <div class="anomaly-details">
-                        <p><strong>Descoberta:</strong> Existem 7 tipos diferentes de acesso, não apenas "Total/Parcial/Negado"</p>
-                        <p><strong>Níveis identificados:</strong></p>
-                        <ol>
-                            <li><strong>Total:</strong> Capa + Eventos + Documentos + Pode peticionar</li>
-                            <li><strong>Capa e Documentos:</strong> Acesso completo mas NÃO peticiona</li>
-                            <li><strong>Capa e Eventos sem Docs:</strong> Vê eventos mas não documentos com sigilo 3+</li>
-                            <li><strong>Apenas Capa Básica:</strong> Informações básicas, sem eventos nem documentos</li>
-                            <li><strong>Apenas Cabeçalho:</strong> Apenas nomes das partes (sigilo 1 sem Vista)</li>
-                            <li><strong>Apenas Documentos Judiciais:</strong> Só vê decisões e atos ordinatórios</li>
-                            <li><strong>Negado:</strong> Nenhum acesso</li>
-                        </ol>
-                        <p><strong>Classificação:</strong> <span class="badge info">COMPLEXIDADE ELEVADA</span></p>
-                        <p><strong>Impacto:</strong> Sistema muito mais complexo do que documentado inicialmente</p>
+                        <p><strong>Impacto:</strong> Para sigilos 3+, as vinculações não têm efeito prático sem permissão expressa</p>
                     </div>
                 </div>
 
                 <div class="anomaly-item info">
-                    <h3>6. Localidade/Rito: Relevante apenas para Peticionamento</h3>
+                    <h3>4. Granularidade de Acesso: 3 Categorias Principais</h3>
                     <div class="anomaly-details">
-                        <p><strong>Descoberta:</strong> Localidade/Rito compatíveis são necessários para PETICIONAR, não para VISUALIZAR</p>
-                        <p><strong>Cenários testados:</strong></p>
-                        <ul>
-                            <li>Procurador vinculado + Localidade diferente = ACESSO mas NÃO peticiona</li>
-                            <li>"Mesma localidade apenas" = ACESSO mas NÃO peticiona</li>
-                            <li>"Mesmo rito apenas" = ACESSO mas NÃO peticiona</li>
-                        </ul>
-                        <p><strong>Classificação:</strong> <span class="badge info">CLARIFICAÇÃO</span></p>
-                        <p><strong>Impacto:</strong> Fator de influência é condicional, não absoluto</p>
+                        <p><strong>Descoberta:</strong> O sistema classifica acessos em 3 categorias: Total, Parcial e Negado</p>
+                        <p><strong>Categorias identificadas:</strong></p>
+                        <ol>
+                            <li><strong>Total:</strong> Acesso completo à capa, eventos e documentos</li>
+                            <li><strong>Parcial:</strong> Acesso limitado com diferentes graus (apenas cabeçalho, capa sem documentos, documentos judiciais apenas, etc.)</li>
+                            <li><strong>Negado:</strong> Nenhum acesso ou acesso bloqueado</li>
+                        </ol>
+                        <p><strong>Classificação:</strong> <span class="badge info">ESTRUTURA DO SISTEMA</span></p>
+                        <p><strong>Impacto:</strong> Dentro de "Parcial", as observações detalham diferentes níveis de acesso conforme cada cenário específico</p>
                     </div>
                 </div>
             </section>
 
             <section class="card">
-                <h2>📋 Recomendações Atualizadas</h2>
+                <h2>📋 Recomendações</h2>
                 <div class="recommendations">
                     <h3>Correções Críticas</h3>
                     <ul>
-                        <li><strong>Padronizar comportamento de Vista ao MP:</strong> Sigilo 1 não deveria ser exceção. Revisar por que Vista funciona para sigilo 0 e 2, mas não para 1.</li>
-                        <li><strong>Documentar sigilos 4 e 5:</strong> Criar documentação clara sobre bloqueios absolutos e quando permissão expressa funciona.</li>
-                        <li><strong>Corrigir vulnerabilidade de permissão expressa:</strong> Implementar validação que impeça o contorno para sigilo 0.</li>
+                        <li><strong>Padronizar comportamento de MP vinculado ao processo para sigilo 1:</strong> Revisar por que MP vinculado funciona para sigilo 0 e 2, mas não para 1. Comportamento inconsistente precisa ser corrigido ou documentado com justificativa clara.</li>
+                        <li><strong>Documentar sigilos 3, 4 e 5:</strong> Criar documentação clara sobre bloqueios absolutos, especificando quando permissão expressa é necessária e quem pode concedê-la.</li>
                     </ul>
 
                     <h3>Melhorias de Segurança</h3>
                     <ul>
-                        <li>Implementar <strong>logs de auditoria detalhados</strong> para todos os acessos com Vista ao MP</li>
-                        <li>Criar <strong>alertas automáticos</strong> para tentativas de manipulação de sigilo + permissão expressa</li>
-                        <li>Implementar <strong>matriz de decisão clara</strong> para determinar tipo de acesso baseado em: intimação + vista + vinculação + sigilo</li>
-                        <li>Adicionar <strong>validação em tempo real</strong> para peticionamento (verificar comarca + rito antes de permitir)</li>
+                        <li>Implementar <strong>logs de auditoria detalhados</strong> para todos os acessos com MP vinculado ao processo</li>
+                        <li>Criar <strong>matriz de decisão documentada</strong> para determinar tipo de acesso baseado em: MP vinculado + procurador vinculado + nível de sigilo</li>
+                        <li>Implementar <strong>validações claras</strong> para cada combinação de fatores de acesso</li>
                     </ul>
 
                     <h3>Documentação Necessária</h3>
                     <ul>
-                        <li>Criar fluxograma de decisão para os 7 níveis de acesso</li>
-                        <li>Documentar diferença entre "Intimação do MP" vs "Vista ao MP"</li>
-                        <li>Especificar requisitos exatos para capacidade de peticionamento</li>
-                        <li>Detalhar comportamento de cada nível de sigilo (0-5)</li>
+                        <li>Criar fluxograma de decisão para as 3 categorias de acesso (Total, Parcial, Negado)</li>
+                        <li>Detalhar comportamento de cada nível de sigilo (0-5) com exemplos práticos</li>
+                        <li>Documentar subcategorias dentro de "Acesso Parcial" conforme observado nos dados</li>
+                        <li>Especificar claramente quando permissão expressa é necessária e como obtê-la</li>
                     </ul>
                 </div>
             </section>
@@ -347,22 +292,11 @@
             <div class="insight-item">
                 <div class="insight-question">
                     <span class="insight-icon">❓</span>
-                    <span>Qual é o fator mais determinante para obter acesso total aos documentos?</span>
+                    <span>MP Vinculado ao Processo é suficiente para ter acesso completo?</span>
                     <span class="expand-icon">▼</span>
                 </div>
                 <div class="insight-answer">
-                    <p><strong>A Intimação do MP é o fator mais poderoso.</strong> Quando o MP é intimado, mesmo sem vinculação direta do procurador, o analista obtém acesso total aos documentos até sigilo 2. Para peticionamento, é necessário também estar vinculado ao procurador e ter compatibilidade de localidade/rito.</p>
-                </div>
-            </div>
-
-            <div class="insight-item">
-                <div class="insight-question">
-                    <span class="insight-icon">❓</span>
-                    <span>Vista ao MP é suficiente para ter acesso completo?</span>
-                    <span class="expand-icon">▼</span>
-                </div>
-                <div class="insight-answer">
-                    <p><strong>Parcialmente sim.</strong> Vista ao MP concede acesso à capa e documentos até sigilo 2, mas <em>não permite peticionamento</em>. Importante: Vista ao MP não funciona para sigilo 1 (apenas cabeçalho) nem para sigilo 3+ (bloqueio total).</p>
+                    <p><strong>Parcialmente sim.</strong> Quando o MP está vinculado ao processo, o analista tem acesso completo aos documentos até sigilo 2. Importante: MP vinculado ao processo NÃO funciona para sigilo 1 (apenas cabeçalho) nem para sigilo 3+ (bloqueio total).</p>
                 </div>
             </div>
 
@@ -373,18 +307,7 @@
                     <span class="expand-icon">▼</span>
                 </div>
                 <div class="insight-answer">
-                    <p><strong>Comportamento inconsistente do sistema.</strong> Vista ao MP funciona para sigilo 0 e sigilo 2, mas não funciona para sigilo 1. Processo sigilo 1 com Vista ao MP resulta apenas em acesso ao cabeçalho, enquanto sigilo 2 com Vista ao MP concede acesso total.</p>
-                </div>
-            </div>
-
-            <div class="insight-item">
-                <div class="insight-question">
-                    <span class="insight-icon">❓</span>
-                    <span>Localidade/Rito afeta visualização ou apenas peticionamento?</span>
-                    <span class="expand-icon">▼</span>
-                </div>
-                <div class="insight-answer">
-                    <p><strong>Afeta apenas o peticionamento.</strong> Para visualizar documentos, basta ter procurador vinculado, mesmo em localidade diferente. Para peticionar, é obrigatório ter localidade E rito compatíveis.</p>
+                    <p><strong>Comportamento inconsistente do sistema.</strong> MP vinculado ao processo funciona para sigilo 0 e sigilo 2, mas não funciona para sigilo 1. Processo sigilo 1 com MP vinculado resulta apenas em acesso ao cabeçalho (nome das partes), enquanto sigilo 2 com MP vinculado concede acesso total.</p>
                 </div>
             </div>
 
@@ -395,12 +318,13 @@
                     <span class="expand-icon">▼</span>
                 </div>
                 <div class="insight-answer">
-                    <p><strong>Bloqueios progressivos que exigem permissão expressa:</strong></p>
+                    <p><strong>Bloqueio absoluto de acesso:</strong></p>
                     <ul>
-                        <li><strong>Sigilo 3:</strong> Requer permissão expressa, mesmo com intimação e vinculação. Com permissão expressa, o acesso é liberado</li>
-                        <li><strong>Sigilo 4:</strong> Requer permissão expressa. Com permissão expressa, o acesso é liberado</li>
-                        <li><strong>Sigilo 5:</strong> Requer permissão expressa. Com permissão expressa, o acesso é liberado</li>
+                        <li><strong>Sigilo 3:</strong> Bloqueia completamente o acesso, mesmo com MP vinculado ao processo e procurador vinculado</li>
+                        <li><strong>Sigilo 4:</strong> Bloqueia completamente o acesso (processo sigiloso)</li>
+                        <li><strong>Sigilo 5:</strong> Nível mais restritivo, acesso exclusivo do Juiz</li>
                     </ul>
+                    <p>Para documentos com sigilo 3 ou superior, as observações indicam que é necessário permissão expressa para ter acesso.</p>
                 </div>
             </div>
 
@@ -411,82 +335,24 @@
                     <span class="expand-icon">▼</span>
                 </div>
                 <div class="insight-answer">
-                    <p><strong>7 níveis distintos de granularidade:</strong></p>
+                    <p><strong>3 categorias principais de acesso:</strong></p>
                     <ol>
-                        <li><strong>Total:</strong> Capa + Eventos + Documentos + Peticionamento</li>
-                        <li><strong>Capa e Documentos:</strong> Acesso completo mas sem peticionamento</li>
-                        <li><strong>Capa e Eventos sem Docs:</strong> Vê eventos mas não documentos com sigilo alto</li>
-                        <li><strong>Apenas Capa Básica:</strong> Informações básicas apenas</li>
-                        <li><strong>Apenas Cabeçalho:</strong> Só nomes das partes</li>
-                        <li><strong>Apenas Documentos Judiciais:</strong> Só decisões e atos ordinatórios</li>
-                        <li><strong>Negado:</strong> Nenhum acesso</li>
+                        <li><strong>Total:</strong> Acesso completo à capa, eventos e documentos</li>
+                        <li><strong>Parcial:</strong> Acesso limitado - pode ser apenas cabeçalho, capa sem documentos, ou acesso à capa mas bloqueio em documentos com sigilo alto</li>
+                        <li><strong>Negado:</strong> Nenhum acesso ou acesso bloqueado</li>
                     </ol>
+                    <p>Dentro da categoria "Parcial", existem diferentes graus de acesso conforme detalhado nas observações de cada cenário.</p>
                 </div>
             </div>
 
             <div class="insight-item">
                 <div class="insight-question">
                     <span class="insight-icon">❓</span>
-                    <span>Existe alguma vulnerabilidade no controle de permissões?</span>
+                    <span>Como funciona o acesso quando não há MP vinculado ao processo?</span>
                     <span class="expand-icon">▼</span>
                 </div>
                 <div class="insight-answer">
-                    <p><strong>Sim, há uma vulnerabilidade crítica:</strong> Não é possível conceder permissão expressa diretamente para sigilo 0, mas é possível contornar elevando temporariamente o sigilo, concedendo permissão, e depois retornando para 0. O sistema mantém a permissão anteriormente concedida.</p>
-                </div>
-            </div>
-
-            <div class="insight-item">
-                <div class="insight-question">
-                    <span class="insight-icon">❓</span>
-                    <span>Por que alguns analistas com procurador vinculado não conseguem peticionar?</span>
-                    <span class="expand-icon">▼</span>
-                </div>
-                <div class="insight-answer">
-                    <p><strong>Falta compatibilidade de localidade e rito.</strong> Para peticionar é obrigatório ter <em>todos</em> os requisitos: procurador vinculado + localidade compatível + rito compatível + MP intimado. Casos "mesma localidade apenas" ou "mesmo rito apenas" permitem visualização mas bloqueiam peticionamento.</p>
-                </div>
-            </div>
-
-            <div class="insight-item">
-                <div class="insight-question">
-                    <span class="insight-icon">❓</span>
-                    <span>Qual é a diferença real entre "Intimação do MP" e "Vista ao MP"?</span>
-                    <span class="expand-icon">▼</span>
-                </div>
-                <div class="insight-answer">
-                    <p><strong>Intimação é vinculação forte, Vista é vinculação parcial:</strong></p>
-                    <ul>
-                        <li><strong>Intimação do MP:</strong> Permite peticionamento quando combinada com vinculação + localidade/rito</li>
-                        <li><strong>Vista ao MP:</strong> Concede acesso até sigilo 2 mas <em>nunca</em> permite peticionamento</li>
-                        <li><strong>Ambos juntos:</strong> Máximo poder - acesso + peticionamento garantidos</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="insight-item">
-                <div class="insight-question">
-                    <span class="insight-icon">❓</span>
-                    <span>Como funciona o acesso quando não há intimação nem Vista ao MP?</span>
-                    <span class="expand-icon">▼</span>
-                </div>
-                <div class="insight-answer">
-                    <p><strong>Acesso extremamente limitado:</strong> Sem intimação nem Vista, o analista só consegue ver informações básicas da capa processual. Não há acesso a documentos nem eventos, mesmo em processos públicos (sigilo 0). É o cenário mais restritivo possível.</p>
-                </div>
-            </div>
-
-            <div class="insight-item">
-                <div class="insight-question">
-                    <span class="insight-icon">❓</span>
-                    <span>Permissão expressa resolve todos os problemas de acesso?</span>
-                    <span class="expand-icon">▼</span>
-                </div>
-                <div class="insight-answer">
-                    <p><strong>Não, tem limitações importantes:</strong></p>
-                    <ul>
-                        <li><strong>Sigilo 0:</strong> Sistema bloqueia permissão expressa direta (vulnerabilidade permite contorno)</li>
-                        <li><strong>Sigilo 3:</strong> Permissão expressa funciona e permite acesso</li>
-                        <li><strong>Sigilo 4-5:</strong> Permissão expressa funciona e permite acesso</li>
-                        <li><strong>Peticionamento:</strong> Permissão expressa garante capacidade de peticionar</li>
-                    </ul>
+                    <p><strong>Acesso muito limitado:</strong> Sem MP vinculado ao processo e sem procurador vinculado, o analista só consegue acessar documentos judiciais (expedidos pela unidade judicial) com sigilo nível 0. Não há acesso a petições iniciais e documentos protocolizados pelas partes, mesmo em processos públicos (sigilo 0).</p>
                 </div>
             </div>
 
@@ -497,11 +363,11 @@
                     <span class="expand-icon">▼</span>
                 </div>
                 <div class="insight-answer">
-                    <p><strong>Três grupos principais emergem dos dados:</strong></p>
+                    <p><strong>Três grupos principais emergem dos dados atuais:</strong></p>
                     <ol>
-                        <li><strong>Acesso Total (≈35%):</strong> Cenários com intimação + vinculação + compatibilidade</li>
-                        <li><strong>Acesso Parcial (≈25%):</strong> Vista ao MP, vinculação sem peticionamento, ou granularidade específica</li>
-                        <li><strong>Acesso Negado (≈40%):</strong> Sigilos altos, falta de requisitos, ou incompatibilidades</li>
+                        <li><strong>Acesso Total (≈42%):</strong> Cenários com MP vinculado ao processo + procurador vinculado, nos sigilos 0-2</li>
+                        <li><strong>Acesso Parcial (≈26%):</strong> MP vinculado mas sem procurador vinculado, ou documentos com sigilo 3+ em processos com sigilos menores</li>
+                        <li><strong>Acesso Negado (≈42%):</strong> Processos com sigilos 3+, ou sigilo 2 sem MP vinculado ao processo</li>
                     </ol>
                 </div>
             </div>
@@ -509,17 +375,11 @@
             <div class="insight-item">
                 <div class="insight-question">
                     <span class="insight-icon">❓</span>
-                    <span>Como otimizar o acesso para analistas em casos complexos?</span>
+                    <span>Qual a combinação ideal para obter acesso máximo?</span>
                     <span class="expand-icon">▼</span>
                 </div>
                 <div class="insight-answer">
-                    <p><strong>Estratégias baseadas nos insights dos dados:</strong></p>
-                    <ul>
-                        <li><strong>Priorizar Vista ao MP:</strong> Mais eficaz que vinculação parcial para visualização</li>
-                        <li><strong>Configurar intimação formal:</strong> Único caminho para peticionamento consistente</li>
-                        <li><strong>Alinhar localidade/rito:</strong> Evitar casos "parciais" que bloqueiam peticionamento</li>
-                        <li><strong>Evitar sigilo 3+:</strong> Requer mudança de estratégia (permissão expressa específica)</li>
-                    </ul>
+                    <p><strong>MP vinculado ao processo + Procurador vinculado + Sigilo 0-2.</strong> Esta combinação garante acesso total à capa, eventos e documentos. O acesso é bloqueado quando o processo ou documento tem sigilo 3 ou superior, independentemente das vinculações.</p>
                 </div>
             </div>
         </div>
