@@ -36,16 +36,16 @@
                             <span class="info-icon">ℹ️</span>
                         </div>
                     </li>
-                    <li class="factor-item" data-tooltip="Quando o procurador ao qual o analista está associado está vinculado diretamente ao processo, o analista obtém acesso aos documentos até sigilo 2. A combinação de procurador vinculado + MP vinculado ao processo proporciona acesso total até sigilo 2.">
+                    <li class="factor-item" data-tooltip="Quando o analista está associado a um procurador que está vinculado ao processo, o analista obtém acesso aos documentos até sigilo 2. A combinação de procurador associado ao analista + MP vinculado ao processo proporciona acesso total até sigilo 2.">
                         <span class="factor-icon">🔗</span>
                         <div class="factor-content">
-                            <strong>Vinculação do Procurador</strong>
+                            <strong>Procurador Associado ao Analista</strong>
                             <span class="factor-desc">Acesso até sigilo 2</span>
                             <span class="info-icon">ℹ️</span>
                         </div>
                     </li>
-                    <li class="factor-item" data-tooltip="SIGILO 3, 4 e 5: Processos ou documentos com sigilo nível 3 ou superior bloqueiam completamente o acesso do analista, independentemente de haver MP vinculado ao processo ou procurador vinculado. Esses níveis de sigilo representam restrições absolutas no sistema.">
-                        <span class="factor-icon">🔒</span>
+                    <li class="factor-item" data-tooltip="SIGILO 3, 4 e 5: Processos ou documentos com sigilo nível 3 ou superior bloqueiam completamente o acesso do analista, independentemente de haver MP vinculado ao processo ou procurador associado ao analista. Esses níveis de sigilo representam restrições absolutas no sistema.">
+                        <span class="factor-icon">🔗</span>
                         <div class="factor-content">
                             <strong>Sigilos 3, 4 e 5</strong>
                             <span class="factor-desc">Bloqueio absoluto de acesso</span>
@@ -180,9 +180,9 @@
                 <div class="anomaly-item critical">
                     <h3>1. MP Vinculado ao Processo + Sigilo 2: Acesso Total (DESCOBERTA IMPORTANTE)</h3>
                     <div class="anomaly-details">
-                        <p><strong>Cenário:</strong> Processos com SIGILO 2 + MP vinculado ao processo, mesmo SEM procurador vinculado</p>
+                        <p><strong>Cenário:</strong> Processos com SIGILO 2 + MP vinculado ao processo, mesmo SEM procurador associado ao analista</p>
                         <p><strong>Comportamento Observado:</strong> Analista tem acesso TOTAL à capa e documentos</p>
-                        <p><strong>Relevância:</strong> MP vinculado ao processo é suficiente para conceder acesso total em processos com sigilo 2, mesmo sem procurador vinculado.</p>
+                        <p><strong>Relevância:</strong> MP vinculado ao processo é suficiente para conceder acesso total em processos com sigilo 2, mesmo sem procurador associado ao analista.</p>
                         <p><strong>Classificação:</strong> <span class="badge info">DESCOBERTA IMPORTANTE</span></p>
                         <p><strong>Impacto:</strong> MP vinculado ao processo tem forte influência no acesso</p>
                         <p><strong>Limitação:</strong> MP vinculado ao processo NÃO funciona para sigilo 1 (apenas cabeçalho) nem sigilo 3+ (bloqueio total)</p>
@@ -205,7 +205,7 @@
                     <h3>3. Sigilos 3, 4 e 5: Bloqueio Absoluto</h3>
                     <div class="anomaly-details">
                         <p><strong>Cenário:</strong> Processos ou documentos com sigilo 3 ou superior</p>
-                        <p><strong>Comportamento Observado:</strong> Acesso NEGADO, independentemente de haver MP vinculado ao processo ou procurador vinculado</p>
+                        <p><strong>Comportamento Observado:</strong> Acesso NEGADO, independentemente de haver MP vinculado ao processo ou procurador associado ao analista</p>
                         <p><strong>Detalhamento por nível:</strong></p>
                         <ul>
                             <li><strong>Sigilo 3:</strong> Bloqueio absoluto. Observações indicam necessidade de permissão expressa</li>
@@ -245,7 +245,7 @@
                     <h3>Melhorias de Segurança</h3>
                     <ul>
                         <li>Implementar <strong>logs de auditoria detalhados</strong> para todos os acessos com MP vinculado ao processo</li>
-                        <li>Criar <strong>matriz de decisão documentada</strong> para determinar tipo de acesso baseado em: MP vinculado + procurador vinculado + nível de sigilo</li>
+                        <li>Criar <strong>matriz de decisão documentada</strong> para determinar tipo de acesso baseado em: MP vinculado ao processo + procurador associado ao analista + nível de sigilo</li>
                         <li>Implementar <strong>validações claras</strong> para cada combinação de fatores de acesso</li>
                     </ul>
 
@@ -320,7 +320,7 @@
                 <div class="insight-answer">
                     <p><strong>Bloqueio absoluto de acesso:</strong></p>
                     <ul>
-                        <li><strong>Sigilo 3:</strong> Bloqueia completamente o acesso, mesmo com MP vinculado ao processo e procurador vinculado</li>
+                        <li><strong>Sigilo 3:</strong> Bloqueia completamente o acesso, mesmo com MP vinculado ao processo e procurador associado ao analista</li>
                         <li><strong>Sigilo 4:</strong> Bloqueia completamente o acesso (processo sigiloso)</li>
                         <li><strong>Sigilo 5:</strong> Nível mais restritivo, acesso exclusivo do Juiz</li>
                     </ul>
@@ -352,7 +352,7 @@
                     <span class="expand-icon">▼</span>
                 </div>
                 <div class="insight-answer">
-                    <p><strong>Acesso muito limitado:</strong> Sem MP vinculado ao processo e sem procurador vinculado, o analista só consegue acessar documentos judiciais (expedidos pela unidade judicial) com sigilo nível 0. Não há acesso a petições iniciais e documentos protocolizados pelas partes, mesmo em processos públicos (sigilo 0).</p>
+                    <p><strong>Acesso muito limitado:</strong> Sem MP vinculado ao processo e sem procurador associado ao analista, o analista só consegue acessar documentos judiciais (expedidos pela unidade judicial) com sigilo nível 0. Não há acesso a petições iniciais e documentos protocolizados pelas partes, mesmo em processos públicos (sigilo 0).</p>
                 </div>
             </div>
 
@@ -365,8 +365,8 @@
                 <div class="insight-answer">
                     <p><strong>Três grupos principais emergem dos dados atuais:</strong></p>
                     <ol>
-                        <li><strong>Acesso Total (≈42%):</strong> Cenários com MP vinculado ao processo + procurador vinculado, nos sigilos 0-2</li>
-                        <li><strong>Acesso Parcial (≈26%):</strong> MP vinculado mas sem procurador vinculado, ou documentos com sigilo 3+ em processos com sigilos menores</li>
+                        <li><strong>Acesso Total (≈42%):</strong> Cenários com MP vinculado ao processo + procurador associado ao analista, nos sigilos 0-2</li>
+                        <li><strong>Acesso Parcial (≈26%):</strong> MP vinculado mas sem procurador associado ao analista, ou documentos com sigilo 3+ em processos com sigilos menores</li>
                         <li><strong>Acesso Negado (≈42%):</strong> Processos com sigilos 3+, ou sigilo 2 sem MP vinculado ao processo</li>
                     </ol>
                 </div>
@@ -379,7 +379,7 @@
                     <span class="expand-icon">▼</span>
                 </div>
                 <div class="insight-answer">
-                    <p><strong>MP vinculado ao processo + Procurador vinculado + Sigilo 0-2.</strong> Esta combinação garante acesso total à capa, eventos e documentos. O acesso é bloqueado quando o processo ou documento tem sigilo 3 ou superior, independentemente das vinculações.</p>
+                    <p><strong>MP vinculado ao processo + Procurador associado ao analista + Sigilo 0-2.</strong> Esta combinação garante acesso total à capa, eventos e documentos. O acesso é bloqueado quando o processo ou documento tem sigilo 3 ou superior, independentemente das vinculações.</p>
                 </div>
             </div>
         </div>

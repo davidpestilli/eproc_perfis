@@ -675,26 +675,26 @@ const stats = {
 const scenarios = [
     {
         id: "1",
-        titulo: "Cenário Ideal: MP Vinculado + Procurador Vinculado + Sigilos 0-2",
+        titulo: "Cenário Ideal: MP Vinculado ao Processo + Procurador Associado ao Analista + Sigilos 0-2",
         sigiloProcesso: 2,
         sigiloDocumentos: 2,
         procurador: true,
         entidade: true,
         resultado: "TOTAL",
         anomalia: false,
-        descricao: "MP vinculado ao processo + analista vinculado ao procurador + sigilo 0-2: cenário que proporciona acesso total à capa, eventos e documentos.",
+        descricao: "MP vinculado ao processo + procurador associado ao analista + sigilo 0-2: cenário que proporciona acesso total à capa, eventos e documentos.",
         relevancia: "CRÍTICA"
     },
     {
         id: "2",
-        titulo: "Descoberta: MP Vinculado + Sigilo 2 (Acesso Total sem Procurador Vinculado)",
+        titulo: "Descoberta: MP Vinculado ao Processo + Sigilo 2 (Acesso Total sem Procurador Associado ao Analista)",
         sigiloProcesso: 2,
         sigiloDocumentos: 0,
         procurador: false,
         entidade: true,
         resultado: "TOTAL",
         anomalia: true,
-        descricao: "Processo sigilo 2 COM MP vinculado ao processo, mesmo SEM procurador vinculado, concede acesso total aos documentos. Demonstra que MP vinculado ao processo é suficiente para sigilo 2.",
+        descricao: "Processo sigilo 2 COM MP vinculado ao processo, mesmo SEM procurador associado ao analista, concede acesso total aos documentos. Demonstra que MP vinculado ao processo é suficiente para sigilo 2.",
         relevancia: "ALTA"
     },
     {
@@ -718,7 +718,7 @@ const scenarios = [
         entidade: true,
         resultado: "NEGADO",
         anomalia: false,
-        descricao: "Mesmo com MP vinculado ao processo + procurador vinculado, sigilo 3 bloqueia completamente o acesso. Observações indicam necessidade de permissão expressa.",
+        descricao: "Mesmo com MP vinculado ao processo + procurador associado ao analista, sigilo 3 bloqueia completamente o acesso. Observações indicam necessidade de permissão expressa.",
         relevancia: "ALTA"
     },
     {
@@ -730,7 +730,7 @@ const scenarios = [
         entidade: true,
         resultado: "NEGADO",
         anomalia: false,
-        descricao: "Sigilo 4 (processo sigiloso) bloqueia acesso mesmo com MP vinculado ao processo + procurador vinculado. Observações indicam necessidade de permissão expressa.",
+        descricao: "Sigilo 4 (processo sigiloso) bloqueia acesso mesmo com MP vinculado ao processo + procurador associado ao analista. Observações indicam necessidade de permissão expressa.",
         relevancia: "CRÍTICA"
     },
     {
@@ -759,26 +759,26 @@ const scenarios = [
     },
     {
         id: "8",
-        titulo: "Sem MP Vinculado + Sem Procurador Vinculado: Acesso Mínimo",
+        titulo: "Sem MP Vinculado ao Processo + Sem Procurador Associado ao Analista: Acesso Mínimo",
         sigiloProcesso: 0,
         sigiloDocumentos: 0,
         procurador: false,
         entidade: false,
         resultado: "PARCIAL",
         anomalia: false,
-        descricao: "Processo público sem MP vinculado ao processo nem procurador vinculado: acesso apenas a documentos judiciais (expedidos pela unidade judicial) com sigilo 0. Não há acesso a petições e documentos das partes.",
+        descricao: "Processo público sem MP vinculado ao processo nem procurador associado ao analista: acesso apenas a documentos judiciais (expedidos pela unidade judicial) com sigilo 0. Não há acesso a petições e documentos das partes.",
         relevancia: "MÉDIA"
     },
     {
         id: "9",
-        titulo: "Sigilo 2 sem MP Vinculado: Acesso Negado",
+        titulo: "Sigilo 2 sem MP Vinculado ao Processo: Acesso Negado",
         sigiloProcesso: 2,
         sigiloDocumentos: 0,
         procurador: false,
         entidade: false,
         resultado: "NEGADO",
         anomalia: false,
-        descricao: "Processo sigilo 2 sem MP vinculado ao processo: nenhum acesso disponível. Demonstra que sigilo 2 requer MP vinculado ou procurador vinculado para ter qualquer tipo de acesso.",
+        descricao: "Processo sigilo 2 sem MP vinculado ao processo: nenhum acesso disponível. Demonstra que sigilo 2 requer MP vinculado ao processo ou procurador associado ao analista para ter qualquer tipo de acesso.",
         relevancia: "ALTA"
     }
 ];
