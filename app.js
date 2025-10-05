@@ -220,7 +220,22 @@ async function renderMatrix() {
     // Se não houver dados no Supabase, usar rawData como fallback
     const dataSource = matrizData.length > 0 ? matrizData : rawData;
 
-    let filteredData = dataSource.filter(row => {
+    // Ordenar por sigilo_processo ASC, depois por sigilo_documento ASC
+    const sortedData = dataSource.sort((a, b) => {
+        const sigiloProcA = a.sigilo_processo !== undefined ? a.sigilo_processo : a.sigiloProcesso;
+        const sigiloProcB = b.sigilo_processo !== undefined ? b.sigilo_processo : b.sigiloProcesso;
+        const sigiloDocA = a.sigilo_documento !== undefined ? a.sigilo_documento : a.sigiloDocumento;
+        const sigiloDocB = b.sigilo_documento !== undefined ? b.sigilo_documento : b.sigiloDocumento;
+
+        // Primeiro compara sigilo_processo
+        if (sigiloProcA !== sigiloProcB) {
+            return sigiloProcA - sigiloProcB;
+        }
+        // Se sigilo_processo for igual, compara sigilo_documento
+        return sigiloDocA - sigiloDocB;
+    });
+
+    let filteredData = sortedData.filter(row => {
         // Filter by sigilo (apenas Sigilo Proc.)
         if (sigiloFilter !== 'all') {
             const sigilo = parseInt(sigiloFilter);
