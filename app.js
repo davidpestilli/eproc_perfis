@@ -86,8 +86,8 @@ function updateComparisonBox() {
 
     let html = '<div class="comparison-table-wrapper"><table class="comparison-table"><thead><tr>';
     html += '<th>#</th>';
-    html += '<th>Vista MP</th>';
-    html += '<th>MP Vinculado ao processo</th>';
+    html += '<th>MP Vinculado ao Processo</th>';
+    html += '<th>Procurador associado ao analista e vinculado ao processo</th>';
     html += '<th>Sigilo Proc.</th>';
     html += '<th>Sigilo Doc.</th>';
     html += '<th>Tipo de Acesso</th>';

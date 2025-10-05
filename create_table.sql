@@ -76,8 +76,8 @@ CREATE POLICY "Permitir exclusão para todos"
 
 -- Comentários na tabela e colunas para documentação
 COMMENT ON TABLE matriz_acesso IS 'Matriz de controle de acesso - Analista Procuradoria';
-COMMENT ON COLUMN matriz_acesso.vista_mp IS 'Indica se há Vista ao MP (SIM/NÃO/N/A)';
-COMMENT ON COLUMN matriz_acesso.procurador_vinculado IS 'Indica se o MP está vinculado ao processo (SIM/NÃO/N/A)';
+COMMENT ON COLUMN matriz_acesso.vista_mp IS 'Indica se o MP está vinculado ao processo (SIM/NÃO/N/A)';
+COMMENT ON COLUMN matriz_acesso.procurador_vinculado IS 'Indica se o procurador está associado ao analista e vinculado ao processo (SIM/NÃO/N/A)';
 COMMENT ON COLUMN matriz_acesso.sigilo_processo IS 'Nível de sigilo do processo (0-5)';
 COMMENT ON COLUMN matriz_acesso.sigilo_documento IS 'Nível de sigilo do documento (0-5)';
 COMMENT ON COLUMN matriz_acesso.tipo_acesso IS 'Tipo de acesso concedido (TOTAL, PARCIAL, NEGADO, etc)';
