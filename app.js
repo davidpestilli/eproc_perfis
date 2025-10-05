@@ -86,9 +86,8 @@ function updateComparisonBox() {
 
     let html = '<div class="comparison-table-wrapper"><table class="comparison-table"><thead><tr>';
     html += '<th>#</th>';
-    html += '<th>Intimação MP</th>';
     html += '<th>Vista MP</th>';
-    html += '<th>Procurador Vinc.</th>';
+    html += '<th>MP Vinculado ao processo</th>';
     html += '<th>Sigilo Proc.</th>';
     html += '<th>Sigilo Doc.</th>';
     html += '<th>Tipo de Acesso</th>';
@@ -99,7 +98,6 @@ function updateComparisonBox() {
         const data = row.data;
 
         // Suportar ambos formatos (snake_case do Supabase e camelCase do rawData)
-        const intimacaoMp = data.intimacao_mp !== undefined ? data.intimacao_mp : data.mpIntimado;
         const vistaMp = data.vista_mp !== undefined ? data.vista_mp : data.vistaMP;
         const procuradorVinc = data.procurador_vinculado !== undefined ? data.procurador_vinculado : data.procuradorVinculado;
         const sigiloProc = data.sigilo_processo !== undefined ? data.sigilo_processo : data.sigiloProcesso;
@@ -113,7 +111,6 @@ function updateComparisonBox() {
 
         html += '<tr>';
         html += `<td><strong>${row.index}</strong></td>`;
-        html += `<td>${intimacaoMp === 'N/A' ? '—' : intimacaoMp}</td>`;
         html += `<td>${vistaMp === 'N/A' ? '—' : vistaMp}</td>`;
         html += `<td>${procuradorVinc}</td>`;
         html += `<td>${sigiloProc}</td>`;
@@ -167,12 +164,10 @@ function initTabs() {
 function initFilters() {
     const sigiloFilter = document.getElementById('filter-sigilo');
     const accessFilter = document.getElementById('filter-access');
-    const intimacaoFilter = document.getElementById('filter-intimacao');
     const vistaFilter = document.getElementById('filter-vista');
 
     sigiloFilter.addEventListener('change', () => renderMatrix());
     accessFilter.addEventListener('change', () => renderMatrix());
-    intimacaoFilter.addEventListener('change', () => renderMatrix());
     vistaFilter.addEventListener('change', () => renderMatrix());
 }
 
@@ -213,12 +208,11 @@ let editingData = {}; // Armazenar dados temporários durante edição
 async function renderMatrix() {
     const sigiloFilter = document.getElementById('filter-sigilo').value;
     const accessFilter = document.getElementById('filter-access').value;
-    const intimacaoFilter = document.getElementById('filter-intimacao').value;
     const vistaFilter = document.getElementById('filter-vista').value;
     const tbody = document.getElementById('matrix-body');
 
     // Mostrar loading
-    tbody.innerHTML = '<tr><td colspan="10" style="text-align: center; padding: 30px;">⏳ Carregando dados...</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="9" style="text-align: center; padding: 30px;">⏳ Carregando dados...</td></tr>';
 
     // Buscar dados do Supabase
     matrizData = await fetchMatrizAcesso();
@@ -232,12 +226,6 @@ async function renderMatrix() {
             const sigilo = parseInt(sigiloFilter);
             const sigiloProc = row.sigilo_processo !== undefined ? row.sigilo_processo : row.sigiloProcesso;
             if (sigiloProc !== sigilo) return false;
-        }
-
-        // Filter by intimacao
-        if (intimacaoFilter !== 'all') {
-            const intimacao = row.intimacao_mp !== undefined ? row.intimacao_mp : row.mpIntimado;
-            if (intimacao !== intimacaoFilter) return false;
         }
 
         // Filter by vista
@@ -263,7 +251,6 @@ async function renderMatrix() {
 
         // Suportar ambos formatos (snake_case do Supabase e camelCase do rawData)
         const rowId = row.id;
-        const intimacaoMp = row.intimacao_mp !== undefined ? row.intimacao_mp : row.mpIntimado;
         const vistaMp = row.vista_mp !== undefined ? row.vista_mp : row.vistaMP;
         const procuradorVinc = row.procurador_vinculado !== undefined ? row.procurador_vinculado : row.procuradorVinculado;
         const sigiloProc = row.sigilo_processo !== undefined ? row.sigilo_processo : row.sigiloProcesso;
@@ -281,13 +268,6 @@ async function renderMatrix() {
                     <input type="checkbox" class="row-checkbox" data-row-index="${rowNumber}" data-row-data='${JSON.stringify(row)}'>
                 </td>
                 <td style="text-align: center; font-weight: bold; color: var(--primary-color);">${rowNumber}</td>
-                <td>
-                    <select class="editable-select" data-field="intimacao_mp" data-row-id="${rowId}">
-                        <option value="SIM" ${intimacaoMp === 'SIM' ? 'selected' : ''}>SIM</option>
-                        <option value="NÃO" ${intimacaoMp === 'NÃO' ? 'selected' : ''}>NÃO</option>
-                        <option value="N/A" ${intimacaoMp === 'N/A' ? 'selected' : ''}>N/A</option>
-                    </select>
-                </td>
                 <td>
                     <select class="editable-select" data-field="vista_mp" data-row-id="${rowId}">
                         <option value="SIM" ${vistaMp === 'SIM' ? 'selected' : ''}>SIM</option>
@@ -339,7 +319,6 @@ async function renderMatrix() {
                     <input type="checkbox" class="row-checkbox" data-row-index="${rowNumber}" data-row-data='${JSON.stringify(row)}'>
                 </td>
                 <td style="text-align: center; font-weight: bold; color: var(--primary-color);">${rowNumber}</td>
-                <td class="read-only-cell">${intimacaoMp === 'N/A' ? '—' : intimacaoMp}</td>
                 <td class="read-only-cell">${vistaMp === 'N/A' ? '—' : vistaMp}</td>
                 <td class="read-only-cell">${procuradorVinc === 'N/A' ? '—' : procuradorVinc}</td>
                 <td class="read-only-cell">${sigiloProc}</td>
@@ -389,7 +368,7 @@ async function renderMatrix() {
     });
 
     if (filteredData.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="10" style="text-align: center; padding: 30px; color: var(--text-secondary);">Nenhum resultado encontrado com os filtros selecionados</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="9" style="text-align: center; padding: 30px; color: var(--text-secondary);">Nenhum resultado encontrado com os filtros selecionados</td></tr>';
     }
 
     // Clear comparison when filters change
@@ -455,7 +434,6 @@ async function handleAddNewRow() {
     showSyncStatus('Adicionando nova linha...');
 
     const newRecord = {
-        intimacao_mp: 'NÃO',
         vista_mp: 'NÃO',
         procurador_vinculado: 'NÃO',
         sigilo_processo: 0,

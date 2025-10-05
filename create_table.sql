@@ -8,7 +8,6 @@ CREATE TYPE opcao_sim_nao AS ENUM ('SIM', 'NÃO', 'N/A');
 -- Criar tabela matriz_acesso
 CREATE TABLE IF NOT EXISTS matriz_acesso (
     id BIGSERIAL PRIMARY KEY,
-    intimacao_mp opcao_sim_nao NOT NULL DEFAULT 'N/A',
     vista_mp opcao_sim_nao NOT NULL DEFAULT 'N/A',
     procurador_vinculado opcao_sim_nao NOT NULL DEFAULT 'NÃO',
     sigilo_processo INTEGER NOT NULL DEFAULT 0 CHECK (sigilo_processo >= 0 AND sigilo_processo <= 5),
@@ -22,7 +21,6 @@ CREATE TABLE IF NOT EXISTS matriz_acesso (
 );
 
 -- Criar índices para melhor performance
-CREATE INDEX IF NOT EXISTS idx_matriz_intimacao_mp ON matriz_acesso(intimacao_mp);
 CREATE INDEX IF NOT EXISTS idx_matriz_vista_mp ON matriz_acesso(vista_mp);
 CREATE INDEX IF NOT EXISTS idx_matriz_procurador ON matriz_acesso(procurador_vinculado);
 CREATE INDEX IF NOT EXISTS idx_matriz_sigilo_proc ON matriz_acesso(sigilo_processo);
@@ -78,9 +76,8 @@ CREATE POLICY "Permitir exclusão para todos"
 
 -- Comentários na tabela e colunas para documentação
 COMMENT ON TABLE matriz_acesso IS 'Matriz de controle de acesso - Analista Procuradoria';
-COMMENT ON COLUMN matriz_acesso.intimacao_mp IS 'Indica se o MP foi intimado (SIM/NÃO/N/A)';
 COMMENT ON COLUMN matriz_acesso.vista_mp IS 'Indica se há Vista ao MP (SIM/NÃO/N/A)';
-COMMENT ON COLUMN matriz_acesso.procurador_vinculado IS 'Indica se o procurador está vinculado (SIM/NÃO/N/A)';
+COMMENT ON COLUMN matriz_acesso.procurador_vinculado IS 'Indica se o MP está vinculado ao processo (SIM/NÃO/N/A)';
 COMMENT ON COLUMN matriz_acesso.sigilo_processo IS 'Nível de sigilo do processo (0-5)';
 COMMENT ON COLUMN matriz_acesso.sigilo_documento IS 'Nível de sigilo do documento (0-5)';
 COMMENT ON COLUMN matriz_acesso.tipo_acesso IS 'Tipo de acesso concedido (TOTAL, PARCIAL, NEGADO, etc)';
